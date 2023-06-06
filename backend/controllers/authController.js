@@ -7,11 +7,11 @@ const User = require("../models/User");
 // @access  Admin
 
 const registerUser = async (req, res) => {
-  const { name, email, contactNumber, joiningDate, department, role, password } = req.body;
+  const { name, email, contactNumber, department, role, password } = req.body;
 
   try {
     // Check if the user entered all the details
-    if (!name || !email || !contactNumber || !joiningDate || !department || !role || !password) {
+    if (!name || !email || !contactNumber || !department || !role || !password) {
       return res
         .status(401)
         .json({ message: "Please fill the necessary details" });
@@ -27,7 +27,7 @@ const registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     user = new User({
-      name, email, contactNumber, joiningDate, department, role,
+      name, email, contactNumber, department, role,
       password: hashedPassword,
     });
     await user.save();
@@ -37,7 +37,7 @@ const registerUser = async (req, res) => {
     res.json({ token, user });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -73,7 +73,7 @@ const loginUser = async (req, res) => {
     res.json({ token, user });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: err.message });
   }
 };
 // @desc    get user
@@ -87,7 +87,7 @@ const getMe = async (req, res) => {
     res.json(user);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -106,7 +106,7 @@ const updateMe = async (req, res) => {
     res.json(user);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -121,7 +121,7 @@ const deleteMe = async (req, res) => {
     res.json({ id: req.user.userId, message: "Account deleted successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: err.message });
   }
 };
 
