@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
+const authRouter = require("./routes/authRoutes")
 
 const app = express();
 
@@ -36,3 +37,4 @@ const connectDB = async () => {
 connectDB();
 
 // Routes
+app.use("/auth", authRouter);
