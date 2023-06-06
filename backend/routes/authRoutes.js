@@ -7,11 +7,11 @@ const {
   updateMe,
   deleteMe,
 } = require("../controllers/authController");
-const auth = require("../middlewares/authMiddleware");
+const {auth, isAdmin} = require("../middlewares/authMiddleware");
 
 // http://localhost:9000/auth
 
-router.post("/register", registerUser);
+router.post("/register", isAdmin, registerUser);
 router.post("/login", loginUser);
 router.route("/me").get(auth, getMe).put(auth, updateMe).delete(auth, deleteMe);
 
