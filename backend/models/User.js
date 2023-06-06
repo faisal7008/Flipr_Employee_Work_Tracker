@@ -12,7 +12,14 @@ const userSchema = new mongoose.Schema({
   },
   contactNumber: {
     type: String,
-    required: true
+    required: true,
+    validate: {
+      validator: function (value) {
+        // Regex pattern for a 10-digit phone number
+        return /^\d{10}$/.test(value);
+      },
+      message: 'Contact number must be a 10-digit number'
+    }
   },
   department: {
     type: String,
@@ -20,7 +27,7 @@ const userSchema = new mongoose.Schema({
   },
   joiningDate: {
     type: Date,
-    required: true
+    default: Date.now,
   },
   role: {
     type: String,
