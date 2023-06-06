@@ -5,7 +5,10 @@ const {
   loginUser,
   getMe,
   updateMe,
-  deleteMe,
+  getAllEmployees,
+  getById,
+  updateById,
+  deleteById,
 } = require("../controllers/authController");
 const {auth, isAdmin} = require("../middlewares/authMiddleware");
 
@@ -13,6 +16,8 @@ const {auth, isAdmin} = require("../middlewares/authMiddleware");
 
 router.post("/register", isAdmin, registerUser);
 router.post("/login", loginUser);
-router.route("/me").get(auth, getMe).put(auth, updateMe).delete(auth, deleteMe);
+router.get("/employees", isAdmin, getAllEmployees);
+router.route("/me").get(auth, getMe).put(auth, updateMe)
+router.route("/users/:id").get(isAdmin, getById).put(isAdmin, updateById).delete(isAdmin, deleteById);
 
 module.exports = router;

@@ -76,7 +76,23 @@ const loginUser = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-// @desc    get user
+
+// @desc    get all employees
+// @route   GET /auth/employees
+// @access  Private
+
+const getAllEmployees = async (req, res) => {
+  try {
+    // Fetch the authenticated user's information
+    const users = await User.find({role: "employee"}).select("-password");
+    res.json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// @desc    get my profile
 // @route   GET /auth/me
 // @access  Private
 
@@ -91,7 +107,7 @@ const getMe = async (req, res) => {
   }
 };
 
-// @desc    Update User
+// @desc    Update my profile
 // @route   PUT /auth/me
 // @access  Private
 
@@ -110,15 +126,49 @@ const updateMe = async (req, res) => {
   }
 };
 
-// @desc    Delete User
-// @route   DELETE /auth/me
+// @desc    Get user by id
+// @route   GET /auth/users/:id
+// @access  Admin
+
+const getById = async (req, res) => {
+  try {
+    // Fetch the authenticated user's information
+    const user = await User.findById(req.params.id).select("-password");
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// @desc    Update User by id
+// @route   PUT /auth/users/:id
 // @access  Private
 
-const deleteMe = async (req, res) => {
+const updateById = async (req, res) => {
+  try {
+    // Update the authenticated user's information
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    ).select("-password");
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// @desc    Delete User by id
+// @route   DELETE /auth/users/:id
+// @access  Private
+
+const deleteById = async (req, res) => {
   try {
     // Delete the authenticated user's account
-    await User.findByIdAndDelete(req.user.userId);
-    res.json({ id: req.user.userId, message: "Account deleted successfully" });
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ id: req.params.id, message: "User deleted successfully" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: err.message });
@@ -128,7 +178,10 @@ const deleteMe = async (req, res) => {
 module.exports = {
   registerUser,
   loginUser,
+  getAllEmployees,
   getMe,
   updateMe,
-  deleteMe,
+  getById,
+  updateById,
+  deleteById
 };
