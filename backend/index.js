@@ -1,8 +1,8 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const dotenv = require("dotenv").config();
-const authRouter = require("./routes/authRoutes")
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const dotenv = require('dotenv').config();
+const authRouter = require('./routes/authRoutes');
 
 const app = express();
 
@@ -21,11 +21,9 @@ const connectDB = async () => {
         useNewUrlParser: true,
       })
       .then(() => {
-        console.log("MongoDB is Connected...");
+        console.log('MongoDB is Connected...');
         // Start server
-        app.listen(process.env.PORT || 9000, () =>
-          console.log("Server started")
-        );
+        app.listen(process.env.PORT || 9000, () => console.log('Server started'));
       })
       .catch((err) => console.log(err));
   } catch (err) {
@@ -37,4 +35,4 @@ const connectDB = async () => {
 connectDB();
 
 // Routes
-app.use("/auth", authRouter);
+app.use('/auth', authRouter);

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
   {
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
           // Regex pattern for a 10-digit phone number
           return /^\d{10}$/.test(value);
         },
-        message: "Contact number must be a 10-digit number",
+        message: 'Contact number must be a 10-digit number',
       },
     },
     department: {
@@ -33,16 +33,16 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       required: true,
-      enum: ["admin", "employee"],
+      enum: ['admin', 'employee'],
     },
     password: {
       type: String,
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;
