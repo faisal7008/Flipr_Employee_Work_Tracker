@@ -84,8 +84,8 @@ const loginUser = async (req, res) => {
 const getAllEmployees = async (req, res) => {
   try {
     // Fetch the authenticated user's information
-    const users = await User.find({role: "employee"}).select("-password");
-    res.json(users);
+    const employees = await User.find({role: "employee"}).select("-password");
+    res.json(employees);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: err.message });
