@@ -1,7 +1,8 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Dashboard from '../pages/Admin/Dashboard';
 import HomeLayout from './HomeLayout';
 import Employees from '../pages/Admin/Employees';
+import Profile from '../pages/Profile';
 
 export default function AdminLayout() {
   return (
@@ -13,6 +14,8 @@ export default function AdminLayout() {
           <Route path='/projects' element={<Dashboard />} />
           <Route path='/tasks' element={<Dashboard />} />
           <Route path='/settings' element={<Dashboard />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='*' element={<Navigate to={'/'} />} />
         </Route>
       </Routes>
     </>
