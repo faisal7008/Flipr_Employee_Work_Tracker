@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import { useSelector } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import NoPageFound from './components/NoPageFound';
 
 function App() {
   const { user } = useSelector((state) => state.auth);
@@ -23,6 +24,7 @@ function App() {
             path='/employee/*'
             element={user && user.role === 'employee' ? <EmployeeLayout /> : <Navigate to={'/'} />}
           />
+          <Route path='*' element={<NoPageFound />} />
         </Routes>
       </Router>
       <ToastContainer autoClose={1000} toastContainerStyle={{ width: '320px' }} />
