@@ -113,12 +113,25 @@ const getMe = async (req, res) => {
 
 const updateMe = async (req, res) => {
   try {
+    const { name, contactNumber, department, password } = req.body;
     // Update the authenticated user's information
-    const user = await User.findByIdAndUpdate(
-      req.user.userId,
-      { $set: req.body },
-      { new: true },
-    ).select('-password');
+    const user = await User.findById(req.user.userId);
+    if (name) {
+      user.name = name;
+    }
+    if (contactNumber) {
+      user.contactNumber = contactNumber;
+    }
+    if (department) {
+      user.department = department;
+    }
+    if (password) {
+      // Hash the password and create a new user
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      user.password = hashedPassword;
+    }
+    await user.save();
     res.json(user);
   } catch (err) {
     console.error(err);

@@ -117,6 +117,7 @@ const token = JSON.parse(localStorage.getItem('token'));
 
 const initialState = {
   user: user || null,
+  profile: [],
   employees: [],
   isAuthenticated: !!user,
   token: token || null,
@@ -186,7 +187,7 @@ const authSlice = createSlice({
       })
       .addCase(getMe.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.profile = action.payload;
       })
       .addCase(getMe.rejected, (state, action) => {
         state.loading = false;
@@ -198,7 +199,7 @@ const authSlice = createSlice({
       })
       .addCase(updateMe.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.profile = action.payload;
       })
       .addCase(updateMe.rejected, (state, action) => {
         state.loading = false;
