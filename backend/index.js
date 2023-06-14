@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv').config();
 const authRouter = require('./routes/authRoutes');
+const taskRouter = require('./routes/taskRoutes');
 
 const app = express();
 
@@ -36,3 +37,4 @@ connectDB();
 
 // Routes
 app.use('/auth', authRouter);
+app.use('/task', taskRouter);
