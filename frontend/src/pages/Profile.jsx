@@ -16,29 +16,29 @@ export default function Profile() {
   const [contactNumber, setContactNumber] = useState(profile?.contactNumber);
   const [department, setDepartment] = useState(profile?.department);
   const [password, setPassword] = useState('');
-//   const [confirmPassword, setConfirmPassword] = useState('');
+  //   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword1, setShowPassword1] = useState(false);
-//   const [showPassword2, setShowPassword2] = useState(false);
+  //   const [showPassword2, setShowPassword2] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  
+
   const resetProfile = () => {
-    setName(profile?.name)
-    setContactNumber(profile?.contactNumber)
-    setDepartment(profile?.department)
-    setPassword('')
-    setErrorMsg('')
-    setPasswordError('')
+    setName(profile?.name);
+    setContactNumber(profile?.contactNumber);
+    setDepartment(profile?.department);
+    setPassword('');
+    setErrorMsg('');
+    setPasswordError('');
     // setConfirmPassword('')
-  }
+  };
 
   useEffect(() => {
     dispatch(getMe());
   }, [dispatch]);
 
   useEffect(() => {
-    resetProfile()
-  }, [loading])
+    resetProfile();
+  }, [loading]);
 
   const validatePassword = () => {
     const minLength = 8;
@@ -77,7 +77,7 @@ export default function Profile() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!name) {
       setErrorMsg('name');
       return;
@@ -102,15 +102,14 @@ export default function Profile() {
       }
     }
     setErrorMsg('');
-    
 
     const userData = {
       name,
       contactNumber,
       department,
-      password
+      password,
     };
-
+    console.log(userData);
     dispatch(updateMe(userData));
     dispatch(clearError());
 
@@ -138,28 +137,28 @@ export default function Profile() {
         </div>
         <div className='grow max-w-lg'>
           <div className='flex sm:justify-end gap-2'>
-          <svg
-            fill='none'
-            stroke='currentColor'
-            strokeWidth={1.5}
-            viewBox='0 0 24 24'
-            xmlns='http://www.w3.org/2000/svg'
-            aria-hidden='true'
-            className='w-5 h-5'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z'
-            />
-          </svg>
-          <p className=' text-sm font-light'>
-            Joined{' '}
-            <span className=' text-gray-900 font-semibold'>
-              {' '}
-              {moment(profile.joiningDate).format('ll')}{' '}
-            </span>
-          </p>
+            <svg
+              fill='none'
+              stroke='currentColor'
+              strokeWidth={1.5}
+              viewBox='0 0 24 24'
+              xmlns='http://www.w3.org/2000/svg'
+              aria-hidden='true'
+              className='w-5 h-5'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z'
+              />
+            </svg>
+            <p className=' text-sm font-light'>
+              Joined{' '}
+              <span className=' text-gray-900 font-semibold'>
+                {' '}
+                {moment(profile.joiningDate).format('ll')}{' '}
+              </span>
+            </p>
           </div>
           {/* <div className='flex mt-1 sm:justify-end gap-2'>
           <svg
@@ -201,16 +200,16 @@ export default function Profile() {
                 type='text'
                 placeholder='Name'
                 className={`input input-bordered input-md w-full ${
-                errorMsg === 'name' ? 'input-error' : 'input-success'
-              }`}
+                  errorMsg === 'name' ? 'input-error' : 'input-success'
+                }`}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
               {errorMsg === 'name' && (
-              <label className='label pt-[1px] pb-0 -mb-4'>
-                <span className='label-text-alt text-error'>Please enter full name</span>
-              </label>
-            )}
+                <label className='label pt-[1px] pb-0 -mb-4'>
+                  <span className='label-text-alt text-error'>Please enter full name</span>
+                </label>
+              )}
             </div>
           </div>
           <div className='flex flex-col py-3 sm:flex-row border-t-[1px] border-gray-200'>
@@ -245,8 +244,15 @@ export default function Profile() {
               </div>
               <div>
                 <div className='mr-1 grid grid-cols-2 gap-2'>
-                  <button type='button' className=' text-sm text-error font-medium hover:underline'>Delete</button>
-                  <button type='button' className=' text-sm text-success font-medium hover:underline'>Update</button>
+                  <button type='button' className=' text-sm text-error font-medium hover:underline'>
+                    Delete
+                  </button>
+                  <button
+                    type='button'
+                    className=' text-sm text-success font-medium hover:underline'
+                  >
+                    Update
+                  </button>
                 </div>
               </div>
             </div>
@@ -262,24 +268,24 @@ export default function Profile() {
               <input
                 type='text'
                 className={`input input-bordered input-md w-full ${
-                    errorMsg === 'contactNumber' ? 'input-error' : 'input-success'
-                  }`}
+                  errorMsg === 'contactNumber' ? 'input-error' : 'input-success'
+                }`}
                 value={contactNumber}
                 onChange={(e) => setContactNumber(e.target.value)}
               />
 
-            {errorMsg === 'contactNumber' && (
-              <label className='label pt-[1px] pb-0 -mb-4'>
-                <span className='label-text-alt text-error'>Please enter contact number</span>
-              </label>
-            )}
-            {errorMsg === 'invalidContact' && (
-              <label className='label pt-[1px] pb-0 -mb-4'>
-                <span className='label-text-alt text-error'>
-                  Contact number must be a 10-digit number
-                </span>
-              </label>
-)}
+              {errorMsg === 'contactNumber' && (
+                <label className='label pt-[1px] pb-0 -mb-4'>
+                  <span className='label-text-alt text-error'>Please enter contact number</span>
+                </label>
+              )}
+              {errorMsg === 'invalidContact' && (
+                <label className='label pt-[1px] pb-0 -mb-4'>
+                  <span className='label-text-alt text-error'>
+                    Contact number must be a 10-digit number
+                  </span>
+                </label>
+              )}
             </div>
           </div>
           <div className='flex flex-col py-3 sm:flex-row border-t-[1px] border-gray-200'>
@@ -294,8 +300,8 @@ export default function Profile() {
                 type='text'
                 placeholder='Department'
                 className={`input input-bordered input-md w-full ${
-                    errorMsg === 'department' ? 'input-error' : 'input-success'
-                  }`}
+                  errorMsg === 'department' ? 'input-error' : 'input-success'
+                }`}
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
               />
@@ -318,8 +324,8 @@ export default function Profile() {
                 type={showPassword1 ? 'text' : 'password'}
                 placeholder='Password'
                 className={`input input-bordered input-md w-full pr-10 ${
-                    errorMsg === 'password' ? 'input-error' : 'input-success'
-                  }`}
+                  errorMsg === 'password' ? 'input-error' : 'input-success'
+                }`}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -367,16 +373,16 @@ export default function Profile() {
                   </svg>
                 )}
               </button>
-            {errorMsg === 'password' && (
-              <label className='label pt-[1px] pb-0 -mb-4'>
-                <span className='label-text-alt text-error'>Please enter password</span>
-              </label>
-            )}
-            {passwordError && (
-              <label className='label pt-[1px] pb-0 -mb-4'>
-                <span className='label-text-alt text-error'>{passwordError}</span>
-              </label>
-            )}
+              {errorMsg === 'password' && (
+                <label className='label pt-[1px] pb-0 -mb-4'>
+                  <span className='label-text-alt text-error'>Please enter password</span>
+                </label>
+              )}
+              {passwordError && (
+                <label className='label pt-[1px] pb-0 -mb-4'>
+                  <span className='label-text-alt text-error'>{passwordError}</span>
+                </label>
+              )}
             </div>
           </div>
           {/* <div className='flex flex-col py-3 sm:flex-row border-y-[1px] border-gray-200'>
@@ -446,10 +452,27 @@ export default function Profile() {
             </div>
           </div> */}
           <div className='flex sm:max-w-3xl sm:ml-8 gap-2 mt-2 py-3 justify-end border-gray-200'>
-            <button type='button' onClick={resetProfile} className=' btn btn-ghost btn-sm h-11 px-4 bg-white text-gray-800'>
+            <button
+              type='button'
+              onClick={resetProfile}
+              className=' btn btn-ghost btn-sm h-11 px-4 bg-white text-gray-800'
+            >
               Cancel
             </button>
-            <button type='submit' onClick={handleSubmit} className=' btn btn-success btn-sm h-11 px-4'>Save</button>
+            <button
+              type='submit'
+              onClick={handleSubmit}
+              className={`btn btn-success btn-sm h-11 px-4 ${
+                !(
+                  name !== profile?.name ||
+                  contactNumber !== profile?.contactNumber ||
+                  department !== profile?.department ||
+                  password !== ''
+                ) && 'btn-disabled'
+              }`}
+            >
+              Save
+            </button>
           </div>
         </form>
       </div>
