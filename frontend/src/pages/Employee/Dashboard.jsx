@@ -1,9 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { logout } from '../../features/auth/authSlice';
 
 export default function Dashboard() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   return (
     <div className=''>
       <div className='text-sm breadcrumbs'>
