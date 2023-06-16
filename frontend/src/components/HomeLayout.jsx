@@ -7,13 +7,13 @@ export default function HomeLayout() {
   return (
     <div className='h-screen flex'>
       <aside
-        className={`fixed md:hidden inset-y-0 left-0 z-10 w-64 bg-slate-900 shadow-lg transform transition-transform duration-300 ease-in-out ${
+        className={`fixed lg:hidden inset-y-0 left-0 z-10 w-64 bg-slate-900 shadow-lg transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         id='mobile-nav'
       >
         <button
-          className='h-10 w-6 md:hidden bg-white absolute right-0 mt-16 -mr-6 flex items-center shadow-lg rounded-tr rounded-br justify-center cursor-pointer'
+          className='h-10 w-6 lg:hidden bg-white absolute right-0 mt-16 -mr-6 flex items-center shadow-lg rounded-tr rounded-br justify-center cursor-pointer'
           id='mobile-toggler'
           onClick={() => setIsOpen((flag) => !flag)}
         >
@@ -44,7 +44,7 @@ export default function HomeLayout() {
         </button>
         <Sidebar />
       </aside>
-      <aside className='w-72 h-screen hidden md:block box-border'>
+      <aside className='w-72 h-screen hidden lg:block box-border'>
         <Sidebar />
       </aside>
       <main className='w-full h-screen box-border py-5 px-8'>
