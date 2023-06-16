@@ -216,7 +216,7 @@ export default function Sidebar() {
           {/* <label className="btn m-1"> */}
           <div
             tabIndex={0}
-            onClick={() => setShowDropdown(true)}
+            onClick={() => setShowDropdown(!showDropdown)}
             className='btn w-[90%] h-full bg-transparent border-0 text-gray-600 py-2 px-4'
           >
             <div className='avatar flex flex-col items-center gap-4 '>
@@ -232,7 +232,7 @@ export default function Sidebar() {
             className={'dropdown-content menu p-2 mb-1 shadow bg-slate-100 rounded-lg w-[90%]' + ` ${showDropdown ? '' : 'hidden'}`}
           >
             <li>
-              <button className=' hover:bg-success' onClick={() => navigate('profile') & setShowDropdown(false)}>
+              <button className=' hover:bg-success' onClick={() => handleClick('profile') & setShowDropdown(false)}>
                 My Profile
               </button>
             </li>
