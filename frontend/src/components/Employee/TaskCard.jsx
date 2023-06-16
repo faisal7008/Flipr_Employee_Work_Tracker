@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export default function TaskCard({ task }) {
   const dateTime = new Date(task.startTime);
@@ -7,13 +7,30 @@ export default function TaskCard({ task }) {
   dateTime.setMinutes(dateTime.getMinutes() + task.timeTaken);
   const endingTime = dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+  const [textareaHeight, setTextareaHeight] = useState();
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    adjustTextareaHeight();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [task.description]);
+
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      const { scrollHeight } = textareaRef.current;
+      setTextareaHeight(`${scrollHeight}px`);
+    }
+  };
+
   return (
     <tr className='h-20 mt-4 drop-shadow-md rounded-xl border-transparent bg-white'>
       <th className=' rounded-l-xl'>
         <textarea
+          ref={textareaRef}
           type='text'
           rows={2}
-          className=' input input-group-md input-sm w-72 border-none outline-none hover:bg-gray-100 focus:bg-gray-200'
+          style={{ height: textareaHeight }}
+          className=' input input-group-md input-sm w-72 resize-none border-none outline-none hover:bg-gray-100 focus:bg-gray-200'
           value={task.description}
         />
       </th>
