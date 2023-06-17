@@ -5,7 +5,7 @@ import { logout } from '../../features/auth/authSlice';
 export default function Dashboard() {
   const dispatch = useDispatch();
   return (
-    <div className=''>
+    <div className='p-2'>
       <div className='text-sm breadcrumbs'>
         <ul>
           <li>

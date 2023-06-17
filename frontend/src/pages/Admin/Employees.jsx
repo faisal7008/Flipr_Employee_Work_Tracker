@@ -40,7 +40,7 @@ export default function Employees() {
   }, []);
 
   return (
-    <div className=' max-h-full '>
+    <div className='p-2 max-h-full '>
       <div className='text-sm breadcrumbs'>
         <ul>
           <li>
