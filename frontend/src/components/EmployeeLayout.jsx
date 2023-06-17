@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Dashboard from '../pages/Admin/Dashboard';
+import Dashboard from '../pages/Employee/Dashboard';
 import HomeLayout from './HomeLayout';
 import Profile from '../pages/Profile';
 import Tasks from '../pages/Employee/Tasks';
