@@ -47,7 +47,7 @@ export default function HomeLayout() {
       <aside className='w-72 h-screen hidden lg:block box-border'>
         <Sidebar />
       </aside>
-      <main className='w-full h-screen box-border py-5 px-8'>
+      <main className='w-full h-screen box-border py-3 px-6'>
         {/* <h2 className=" absolute right-10 top-10">Hello</h2> */}
         <Outlet />
       </main>
