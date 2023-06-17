@@ -84,7 +84,7 @@ const loginUser = async (req, res) => {
 const getAllEmployees = async (req, res) => {
   try {
     // Fetch the authenticated user's information
-    const employees = await User.find({ role: 'employee' }).select('-password');
+    const employees = await User.find({ role: 'employee' });
     res.json(employees);
   } catch (err) {
     console.error(err);
@@ -159,13 +159,23 @@ const getById = async (req, res) => {
 // @access  Private
 
 const updateById = async (req, res) => {
-  try {
+  try{
+  const { name, contactNumber, department, status } = req.body;
     // Update the authenticated user's information
-    const user = await User.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
-      { new: true },
-    ).select('-password');
+    const user = await User.findById(req.params.id);
+    if (name) {
+      user.name = name;
+    }
+    if (contactNumber) {
+      user.contactNumber = contactNumber;
+    }
+    if (department) {
+      user.department = department;
+    }
+    // if(status){
+      user.status = status
+    // }
+    await user.save();
     res.json(user);
   } catch (err) {
     console.error(err);

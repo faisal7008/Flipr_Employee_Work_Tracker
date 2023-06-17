@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteUserById, getAllEmployees } from '../../features/auth/authSlice';
+import { deleteUserById, getAllEmployees, updateUserById } from '../../features/auth/authSlice';
 import moment from 'moment';
 import RegisterModal from '../../components/Admin/RegisterModal';
 import { toast } from 'react-toastify';
@@ -10,6 +10,7 @@ const userimage =
 
 export default function Employees() {
   const dispatch = useDispatch();
+  // const [status, setStatus] = useState('');
   const [deleteUsers, setDeleteUsers] = useState([]);
 
   const handleCheck = (e, empId) => {
@@ -32,6 +33,17 @@ export default function Employees() {
       setDeleteUsers([]);
     }
   };
+
+  const editStatus = (empId, empStatus) => {
+    if(empStatus === 'active'){
+      dispatch(updateUserById({userId: empId, userData: {status: 'inactive'}}))
+    } else {
+      dispatch(updateUserById({userId: empId, userData: {status: 'active'}}))
+    }
+    toast.success('Success! Employee status is updated', {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+  }
 
   // console.log(deleteUsers)
   const { employees } = useSelector((state) => state.auth);
@@ -139,7 +151,7 @@ export default function Employees() {
                 <th>Contact</th>
                 <th>Department</th>
                 <th>Joined</th>
-                <th></th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
@@ -176,6 +188,7 @@ export default function Employees() {
                     <button className='btn btn-ghost btn-xs'>{emp.department}</button>
                   </td>
                   <td>{moment(emp.joiningDate).format('ll')}</td>
+                  <td><input onChange={() => editStatus(emp._id, emp.status)} type="checkbox" className="toggle toggle-success" checked={emp.status === 'active'} /></td>
                 </tr>
               ))}
             </tbody>

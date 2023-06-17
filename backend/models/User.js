@@ -35,6 +35,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       enum: ['admin', 'employee'],
     },
+    status: {
+      type: String,
+      required: true,
+      enum: ['active', 'inactive']
+    },
     password: {
       type: String,
       required: true,

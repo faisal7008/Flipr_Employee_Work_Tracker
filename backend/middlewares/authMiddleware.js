@@ -31,7 +31,6 @@ const isAdmin = async (req, res, next) => {
     if (user.role !== 'admin') {
       return res.status(403).json({ message: 'Access denied. Contact Administrator.' });
     }
-    req.user = { userId: decodedToken.userId };
     next();
   } catch (err) {
     res.status(401).json({ message: 'Invalid token' });
