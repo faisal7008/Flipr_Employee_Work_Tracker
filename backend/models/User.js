@@ -38,7 +38,8 @@ const userSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ['active', 'inactive']
+      enum: ['active', 'inactive'],
+      default: 'active',
     },
     password: {
       type: String,

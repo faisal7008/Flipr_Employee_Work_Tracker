@@ -7,7 +7,7 @@ const User = require('../models/User');
 // @access  Admin
 
 const registerUser = async (req, res) => {
-  const { name, email, contactNumber, department, role, password } = req.body;
+  const { name, email, contactNumber, status, department, role, password } = req.body;
 
   try {
     // Check if the user entered all the details
