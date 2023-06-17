@@ -52,7 +52,7 @@ export default function Employees() {
   }, []);
 
   return (
-    <div className=' max-h-full '>
+    <div className='p-2 max-h-full '>
       <div className='text-sm breadcrumbs'>
         <ul>
           <li>
@@ -88,7 +88,7 @@ export default function Employees() {
             <input
               type='text'
               id='simple-search'
-              className='bg-gray-200 border shadow-inner shadow-gray-300 border-gray-200 text-gray-900 text-sm rounded-md block w-full pl-12 p-2.5 focus:ring-success outline-success'
+              className='bg-gray-200 border border-gray-200 text-gray-900 text-sm rounded-md block w-full pl-12 p-2.5 focus:ring-success outline-success'
               placeholder='Search'
               required
             />
@@ -146,7 +146,7 @@ export default function Employees() {
                     <input type='checkbox' className='checkbox' />
                   </label>
                 </th>
-                <th>Name</th>
+                <th className=' text-sm'>Name</th>
                 <th>Email</th>
                 <th>Contact</th>
                 <th>Department</th>

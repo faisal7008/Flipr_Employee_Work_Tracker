@@ -14,7 +14,7 @@ export default function Sidebar() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const [current, setCurrent] = useState(currentPath.pathname.split('/')[2]);
-  const [showDropdown, setShowDropdown] = useState(true)
+  const [showDropdown, setShowDropdown] = useState(true);
   const handleClick = (item) => {
     setCurrent(item);
     navigate(item);
@@ -216,7 +216,7 @@ export default function Sidebar() {
           {/* <label className="btn m-1"> */}
           <div
             tabIndex={0}
-            onClick={() => setShowDropdown(true)}
+            onClick={() => setShowDropdown(!showDropdown)}
             className='btn w-[90%] h-full bg-transparent border-0 text-gray-600 py-2 px-4'
           >
             <div className='avatar flex flex-col items-center gap-4 '>
@@ -229,15 +229,24 @@ export default function Sidebar() {
           {/* </label> */}
           <ul
             tabIndex={0}
-            className={'dropdown-content menu p-2 mb-1 shadow bg-slate-100 rounded-lg w-[90%]' + ` ${showDropdown ? '' : 'hidden'}`}
+            className={
+              'dropdown-content menu p-2 mb-1 shadow bg-slate-100 rounded-lg w-[90%]' +
+              ` ${showDropdown ? '' : 'hidden'}`
+            }
           >
             <li>
-              <button className=' hover:bg-success' onClick={() => navigate('profile') & setShowDropdown(false)}>
+              <button
+                className=' hover:bg-success'
+                onClick={() => handleClick('profile') & setShowDropdown(false)}
+              >
                 My Profile
               </button>
             </li>
             <li>
-              <button className=' hover:bg-success' onClick={() => dispatch(logout()) & setShowDropdown(false)}>
+              <button
+                className=' hover:bg-success'
+                onClick={() => dispatch(logout()) & setShowDropdown(false)}
+              >
                 Logout
               </button>
             </li>

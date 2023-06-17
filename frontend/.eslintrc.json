@@ -8,10 +8,14 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "react-hooks"],
   "rules": {
     "no-useless-catch": "off",
-    "react/react-in-jsx-scope": "off"
+    "no-unused-vars": "off",
+    "no-undef": "off",
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/exhaustive-deps": "off"
   },
   "globals": {
     "process": "readonly"
