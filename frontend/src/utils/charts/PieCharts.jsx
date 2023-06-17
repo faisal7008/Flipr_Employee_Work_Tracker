@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-const PieCharts = ({ data }) => {
+const PieCharts = ({ data, height, border }) => {
   const [taskDay, setTaskDay] = useState('today');
 
   const getCurrentDayData = () => {
@@ -69,7 +69,7 @@ const PieCharts = ({ data }) => {
   };
 
   return (
-    <div className='flex p-5 h-full bg-base-100 card shadow-lg justify-start items-center w-full gap-4 md:gap-12'>
+    <div className={`flex p-5 h-full bg-base-100 card ${border ? 'border' : 'shadow-lg'} justify-start items-center w-full gap-4 md:gap-12`}>
       <div className='flex gap-2'>
         <button
           type='button'
@@ -91,7 +91,7 @@ const PieCharts = ({ data }) => {
           options={options}
           series={taskDay === 'today' ? currentDayPieData : previousDayPieData}
           type='donut'
-          height={340}
+          height={height}
         />
       </div>
     </div>
