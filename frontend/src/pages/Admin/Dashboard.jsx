@@ -1,19 +1,47 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import StackedBarChart from '../../utils/charts/StackedBarChart';
-import PieCharts from '../../utils/charts/PieCharts';
-import { getTasksByEmployee } from '../../features/task/taskSlice';
-import moment from 'moment';
 import Datepicker from 'react-tailwindcss-datepicker';
 import EmployeeCard from '../../components/Admin/EmployeeCard';
 import { getAllEmployees } from '../../features/auth/authSlice';
+import { getTasksByEmployee } from '../../features/task/taskSlice';
+import moment from 'moment';
 
 export default function Dashboard() {
   const dispatch = useDispatch();
   const { employees } = useSelector((state) => state.auth);
+  const { tasks } = useSelector((state) => state.task);
   useEffect(() => {
     dispatch(getAllEmployees());
   }, []);
+  const handleClick = (employee) => {
+    dispatch(getTasksByEmployee({ employeeId: employee._id }));
+  };
+
+  const [filterDates, setFilterDates] = useState({
+    startDate: null,
+    endDate: null,
+  });
+  const [filteredTasks, setFilteredTasks] = useState([]);
+
+  const handleFilterDatesChange = (newfilterDates) => {
+    setFilterDates(newfilterDates);
+  };
+
+  useEffect(() => {
+    const startDate = moment(filterDates.startDate);
+    const endDate = moment(filterDates.endDate);
+
+    let filteredTasks = tasks
+      .filter((task) => moment(task.startTime).isSameOrBefore(moment(), 'day'))
+      .sort((a, b) => moment(b.startTime).diff(moment(a.startTime)));
+
+    if (startDate.isValid() && endDate.isValid()) {
+      filteredTasks = filteredTasks.filter((task) =>
+        moment(task.startTime).isBetween(startDate, endDate, 'day', '[]'),
+      );
+    }
+    setFilteredTasks(filteredTasks);
+  }, [tasks, filterDates]);
 
   return (
     <div className='flex p-2 md:pb-2 flex-col h-full'>
@@ -60,7 +88,7 @@ export default function Dashboard() {
                 />
               </div>
             </div>
-            <div className=''>
+            <div className='w-72'>
               <Datepicker
                 popoverDirection='down'
                 separator={'-'}
@@ -72,15 +100,17 @@ export default function Dashboard() {
                 }
                 toggleClassName={' absolute left-5 mt-[14px]'}
                 // containerClassName={'z-[9999]'}
-                // value={filterDates}
-                // onChange={handleFilterDatesChange}
+                value={filterDates}
+                onChange={handleFilterDatesChange}
               />
             </div>
           </div>
           <div className='employee-cards h-[20rem] overflow-y-auto scroll-container grow flex flex-col gap-2'>
             <div className='grid gap-3'>
               {employees?.map((emp) => (
-                <EmployeeCard key={emp._id} employee={emp} />
+                <div key={emp._id} onClick={() => handleClick(emp)}>
+                  <EmployeeCard employee={emp} tasks={filteredTasks} />
+                </div>
               ))}
             </div>
           </div>
