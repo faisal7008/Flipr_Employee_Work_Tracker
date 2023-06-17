@@ -7,13 +7,7 @@ import { getTasksByEmployee } from '../../features/task/taskSlice';
 const userimage =
   'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80';
 
-export default function EmployeeCard({ employee }) {
-  const dispatch = useDispatch();
-  console.log(employee);
-  const { tasks, isLoading } = useSelector((state) => state.task);
-  useEffect(() => {
-    dispatch(getTasksByEmployee({ employeeId: employee._id }));
-  }, [employee, isLoading]);
+export default function EmployeeCard({ employee, tasks }) {
   return (
     <div className='collapse bg-base-100 shadow-md '>
       <input type='radio' name='my-accordion-1' />
@@ -31,10 +25,14 @@ export default function EmployeeCard({ employee }) {
             </div>
           </div>
           <div>
-
-          <div>
-              
-<div className={`badge p-3 ${employee.status === 'active' ? 'badge-primary' : 'badge-error'}`}>{employee.status}</div>
+            <div>
+              <div
+                className={`badge p-3 ${
+                  employee.status === 'active' ? 'badge-primary' : 'badge-error'
+                }`}
+              >
+                {employee.status}
+              </div>
             </div>
           </div>
         </div>

@@ -1,11 +1,11 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import comingSoon from '../assets/comingsoon.svg'
+import comingSoon from '../assets/comingsoon.svg';
 
 export default function ComingSoon() {
-    const currentPath = useLocation();
-    const userType = currentPath.pathname.split('/')[1]
-    const page = currentPath.pathname.split('/')[2]
+  const currentPath = useLocation();
+  const userType = currentPath.pathname.split('/')[1];
+  const page = currentPath.pathname.split('/')[2];
   return (
     <div className='p-2 h-full flex flex-col'>
       <div className='text-sm capitalize breadcrumbs'>

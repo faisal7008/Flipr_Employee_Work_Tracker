@@ -48,7 +48,7 @@ const PieCharts = ({ data, height, border }) => {
   const previousDayPieData = processDataForPieChart(previousDayData);
 
   const options = {
-    colors: [ '#0069E0', '#AB3B98', '#EAB308'],
+    colors: ['#0069E0', '#AB3B98', '#EAB308'],
     plotOptions: {
       pie: {
         // ...
@@ -69,7 +69,11 @@ const PieCharts = ({ data, height, border }) => {
   };
 
   return (
-    <div className={`flex p-5 h-full bg-base-100 card ${border ? 'border' : 'shadow-lg'} justify-start items-center w-full gap-4 md:gap-12`}>
+    <div
+      className={`flex p-5 h-full bg-base-100 card ${
+        border ? 'border' : 'shadow-lg'
+      } justify-start items-center w-full gap-4 md:gap-12`}
+    >
       <div className='flex gap-2'>
         <button
           type='button'

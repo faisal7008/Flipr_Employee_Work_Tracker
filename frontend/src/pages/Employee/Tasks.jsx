@@ -13,7 +13,7 @@ export default function Tasks() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { tasks } = useSelector((state) => state.task);
-  console.log(tasks)
+  console.log(tasks);
   const [taskType, setTaskType] = useState('');
   const [filterDates, setFilterDates] = useState({
     startDate: null,

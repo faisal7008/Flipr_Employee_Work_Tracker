@@ -18,7 +18,7 @@ export const createTask = createAsyncThunk(
 // Thunk action to get all tasks by employee
 export const getTasksByEmployee = createAsyncThunk(
   'tasks/getTasksByEmployee',
-  async ({employeeId}, { rejectWithValue, getState }) => {
+  async ({ employeeId }, { rejectWithValue, getState }) => {
     try {
       const token = getState().auth.token;
       const response = await taskService.getTasksByEmployee(token, employeeId);
@@ -50,7 +50,7 @@ export const updateTaskById = createAsyncThunk(
     try {
       const token = getState().auth.token;
       const response = await taskService.updateTaskById(token, taskId, taskData);
-      dispatch(getTasksByEmployee({employeeId}))
+      dispatch(getTasksByEmployee({ employeeId }));
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -131,7 +131,7 @@ const taskSlice = createSlice({
       })
       .addCase(updateTaskById.fulfilled, (state) => {
         state.loading = false;
-        state.message = action.payload.message
+        state.message = action.payload.message;
       })
       .addCase(updateTaskById.rejected, (state, action) => {
         state.loading = false;

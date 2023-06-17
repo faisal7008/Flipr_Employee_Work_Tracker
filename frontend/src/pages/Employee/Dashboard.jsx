@@ -25,8 +25,8 @@ export default function Dashboard() {
   // return formattedHours;
   // };
   const getFormattedTime = (timeInMinutes) => {
-    if(timeInMinutes === 0){
-      return "00:00"
+    if (timeInMinutes === 0) {
+      return '00:00';
     }
     const duration = moment.duration(timeInMinutes, 'minutes');
     // Extract hours and minutes
@@ -117,7 +117,7 @@ export default function Dashboard() {
             <StackedBarChart data={tasks} height={400} border={false} />
           </div>
           <div className='grow'>
-            <PieCharts data={tasks} height={400} border={false}/>
+            <PieCharts data={tasks} height={400} border={false} />
           </div>
         </div>
       </div>
