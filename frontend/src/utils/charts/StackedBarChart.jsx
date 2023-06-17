@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-const StackedBarChart = ({ data: weeklyData }) => {
+const StackedBarChart = ({ data: weeklyData, height, border }) => {
   const [week, setWeek] = useState('this');
   const [currentDate, setCurrentDate] = useState(moment(new Date()));
   const getWeekDates = () => {
@@ -37,47 +37,60 @@ const StackedBarChart = ({ data: weeklyData }) => {
       working: new Array(7).fill(0),
       meeting: new Array(7).fill(0),
     };
-
+  
     const weekStart = currentDate.clone().startOf('week');
     const weekEnd = currentDate.clone().endOf('week');
-
+  
     weeklyData.forEach((task) => {
       const { taskType, timeTaken, startTime } = task;
-
+  
       const taskDate = moment(startTime);
-
+  
       if (taskDate.isBetween(weekStart, weekEnd, null, '[]')) {
         const dayOfWeek = taskDate.day();
         const taskDay = moment.weekdays(dayOfWeek);
-
-        if (!weeklyStats.notWorking[taskDay]) {
-          weeklyStats.notWorking[taskDay] = 0;
+  
+        if (!weeklyStats.notWorking[dayOfWeek]) {
+          weeklyStats.notWorking[dayOfWeek] = 0;
         }
-        if (!weeklyStats.working[taskDay]) {
-          weeklyStats.working[taskDay] = 0;
+        if (!weeklyStats.working[dayOfWeek]) {
+          weeklyStats.working[dayOfWeek] = 0;
         }
-        if (!weeklyStats.meeting[taskDay]) {
-          weeklyStats.meeting[taskDay] = 0;
+        if (!weeklyStats.meeting[dayOfWeek]) {
+          weeklyStats.meeting[dayOfWeek] = 0;
         }
-
+  
         if (taskType === 'Break') {
-          weeklyStats.notWorking[taskDay] += timeTaken;
+          weeklyStats.notWorking[dayOfWeek] += timeTaken;
         } else if (taskType === 'Work') {
-          weeklyStats.working[taskDay] += timeTaken;
+          weeklyStats.working[dayOfWeek] += timeTaken;
         } else if (taskType === 'Meeting') {
-          weeklyStats.meeting[taskDay] += timeTaken;
+          weeklyStats.meeting[dayOfWeek] += timeTaken;
         }
       }
     });
-
+  
     const statsData = [
-      { name: 'Not Working (Break)', data: Object.values(weeklyStats.notWorking), color: '#EAB308' },
-      { name: 'Working', data: Object.values(weeklyStats.working), color: '#0069E0', },
-      { name: 'Meeting', data: Object.values(weeklyStats.meeting), color: '#AB3B98', },
+      {
+        name: 'Not Working (Break)',
+        data: Object.values(weeklyStats.notWorking),
+        color: '#EAB308',
+      },
+      {
+        name: 'Working',
+        data: Object.values(weeklyStats.working),
+        color: '#0069E0',
+      },
+      {
+        name: 'Meeting',
+        data: Object.values(weeklyStats.meeting),
+        color: '#AB3B98',
+      },
     ];
-
+  
     return statsData;
   };
+  
 
   const barChartData = processWeeklyData();
   const xaxisDates = getWeekDates();
@@ -131,7 +144,7 @@ const StackedBarChart = ({ data: weeklyData }) => {
   };
 
   return (
-    <div className='p-5 bg-base-100 card shadow-lg'>
+    <div className={`p-5 bg-base-100 card ${border ? 'border' : 'shadow-lg'}`}>
       <div className='px-3 flex justify-between items-center'>
         <h2 className='font-semibold text-lg text-slate-500'>Weekly Stats</h2>
         <div className='flex gap-2'>
@@ -176,7 +189,7 @@ const StackedBarChart = ({ data: weeklyData }) => {
         </div>
       </div>
       <div className='py-2'>
-        <ReactApexChart options={options} series={barChartData} type='bar' height={400} />
+        <ReactApexChart options={options} series={barChartData} type='bar' height={height} />
       </div>
     </div>
   );
