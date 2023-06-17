@@ -13,6 +13,7 @@ export default function Tasks() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { tasks } = useSelector((state) => state.task);
+  console.log(tasks)
   const [taskType, setTaskType] = useState('');
   const [filterDates, setFilterDates] = useState({
     startDate: null,
@@ -64,7 +65,7 @@ export default function Tasks() {
   }, [tasks, filterDates, taskType]);
 
   return (
-    <div className='flex flex-col h-full'>
+    <div className='flex flex-col h-full p-2'>
       <div className='text-sm breadcrumbs overflow-hidden'>
         <ul>
           <li>
@@ -75,7 +76,7 @@ export default function Tasks() {
           </li>
         </ul>
       </div>
-      <div className='mt-1 flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center w-full'>
+      <div className=' flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center w-full'>
         <div>
           <h2 className=' text-2xl font-semibold tracking-wide'>Tasks</h2>
           <p className='text-xs my-2 text-gray-500'>
@@ -180,7 +181,7 @@ export default function Tasks() {
 
       <div className='mt-3 h-full flex-grow scroll-container overflow-auto'>
         {filteredTasks.length > 0 ? (
-          <table className='table relative w-full border-separate border-spacing-y-3'>
+          <table className='table relative w-full p-2 border-separate border-spacing-y-3'>
             <thead>
               <tr className='sticky top-0 bg-transparent'>
                 <th className='text-sm'>Description</th>
