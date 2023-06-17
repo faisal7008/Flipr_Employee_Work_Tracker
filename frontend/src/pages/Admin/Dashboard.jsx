@@ -44,7 +44,7 @@ export default function Dashboard() {
   }, [tasks, filterDates]);
 
   return (
-    <div className='flex p-2 md:pb-2 flex-col h-full'>
+    <div className='flex p-2 md:pb-2 flex-col h-full overflow-y-auto md:overflow-hidden scroll-container'>
       <div className='text-sm breadcrumbs overflow-visible'>
         <ul>
           <li>
@@ -124,7 +124,7 @@ export default function Dashboard() {
                   <div className='icon'></div>
                 </div>
                 <div className=' flex justify-between items-end'>
-                  <h2 className=' text-3xl font-semibold'>45</h2>
+                  <h2 className=' text-3xl font-semibold'>{employees.length}</h2>
                   <h2 className=' text-xs font-medium text-gray-300'>Total</h2>
                 </div>
               </div>
@@ -136,7 +136,7 @@ export default function Dashboard() {
                   <div className='icon'></div>
                 </div>
                 <div className=' flex justify-between items-end'>
-                  <h2 className=' text-3xl font-semibold'>38</h2>
+                  <h2 className=' text-3xl font-semibold'>{employees.filter(emp => emp.status === 'active').length}</h2>
                   <h2 className=' text-xs font-medium text-gray-300'>Total</h2>
                 </div>
               </div>
@@ -149,7 +149,7 @@ export default function Dashboard() {
                 </div>
                 <div className=' flex justify-between items-end'>
                   <h2 className=' text-3xl font-semibold'>
-                    20 <sup className=' text-sm'>h</sup>
+                    20
                   </h2>
                   <h2 className=' text-xs font-medium text-gray-300'>Total</h2>
                 </div>
@@ -162,31 +162,31 @@ export default function Dashboard() {
                   <div className='icon'></div>
                 </div>
 
-                <ol className='relative border-l border-gray-200 dark:border-gray-700'>
+                <ol className='relative border-l border-gray-200'>
                   <li className='mb-5 ml-4'>
-                    <div className='absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700'></div>
+                    <div className='absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white'></div>
                     <time className='mb-1 text-xs font-normal leading-none text-gray-400 dark:text-gray-500'>
                       February 2022
                     </time>
-                    <h3 className='text-sm font-semibold text-gray-900 dark:text-white'>
+                    <h3 className='text-sm font-semibold text-gray-900'>
                       Application UI code in Tailwind CSS
                     </h3>
                   </li>
                   <li className='mb-5 ml-4'>
-                    <div className='absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700'></div>
+                    <div className='absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white'></div>
                     <time className='mb-1 text-xs font-normal leading-none text-gray-400 dark:text-gray-500'>
                       March 2022
                     </time>
-                    <h3 className='text-sm font-semibold text-gray-900 dark:text-white'>
+                    <h3 className='text-sm font-semibold text-gray-900'>
                       Marketing UI design in Figma
                     </h3>
                   </li>
                   <li className='ml-4'>
-                    <div className='absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700'></div>
+                    <div className='absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white'></div>
                     <time className='mb-1 text-xs font-normal leading-none text-gray-400 dark:text-gray-500'>
                       April 2022
                     </time>
-                    <h3 className='text-sm font-semibold text-gray-900 dark:text-white'>
+                    <h3 className='text-sm font-semibold text-gray-900'>
                       E-Commerce UI code in Tailwind CSS
                     </h3>
                   </li>
