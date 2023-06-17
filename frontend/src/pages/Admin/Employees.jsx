@@ -52,7 +52,7 @@ export default function Employees() {
   }, []);
 
   return (
-    <div className='p-2 max-h-full '>
+    <div className='p-2 h-full  flex flex-col'>
       <div className='text-sm breadcrumbs'>
         <ul>
           <li>
@@ -63,7 +63,7 @@ export default function Employees() {
           </li>
         </ul>
       </div>
-      <div className=' flex flex-col gap-4 max-h-full'>
+      <div className=' flex flex-col gap-4 h-full'>
         <h2 className='text-2xl font-semibold tracking-wide'>Mangage Employees</h2>
         <div className='flex flex-col sm:flex-row gap-4 items-start sm:items-center'>
           <label htmlFor='simple-search' className='sr-only'>
@@ -137,7 +137,7 @@ export default function Employees() {
           </div>
           <RegisterModal />
         </div>
-        <div className='overflow-auto max-h-full rounded-xl grow border'>
+        <div className='overflow-auto h-full rounded-xl grow mb-2'>
           <table className='table bg-white rounded-xl shadow-lg'>
             <thead>
               <tr>

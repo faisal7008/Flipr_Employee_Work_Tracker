@@ -17,10 +17,19 @@ export default function Dashboard() {
   let breakTime = 0;
   tasks.forEach((task) => {
     totalTime += task.timeTaken;
-    if (task.taskType === 'Work') workTime += task.timeTaken;
-    if (task.taskType === 'Meeting') meetingTime += task.timeTaken;
-    if (task.taskType === 'Break') breakTime += task.timeTaken;
+    if (task.taskType === 'Work') {
+      workTime += task.timeTaken;
+    }
+    if (task.taskType === 'Meeting') {
+      meetingTime += task.timeTaken;
+    }
+    if (task.taskType === 'Break') {
+      breakTime += task.timeTaken;
+    }
   });
+  console.log(workTime);
+  console.log(meetingTime);
+  console.log(breakTime);
   // const formattedHours = moment(totalTime).format('HH:mm', { trim: false });
   // return formattedHours;
   // };

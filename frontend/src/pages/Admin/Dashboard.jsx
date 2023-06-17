@@ -124,7 +124,7 @@ export default function Dashboard() {
                   <div className='icon'></div>
                 </div>
                 <div className=' flex justify-between items-end'>
-                  <h2 className=' text-3xl font-semibold'>{employees.length}</h2>
+                  <h2 className=' text-3xl font-semibold'>{employees?.length}</h2>
                   <h2 className=' text-xs font-medium text-gray-300'>Total</h2>
                 </div>
               </div>
@@ -136,7 +136,7 @@ export default function Dashboard() {
                   <div className='icon'></div>
                 </div>
                 <div className=' flex justify-between items-end'>
-                  <h2 className=' text-3xl font-semibold'>{employees.filter(emp => emp.status === 'active').length}</h2>
+                  <h2 className=' text-3xl font-semibold'>{employees.filter(emp => emp.status === 'active')?.length}</h2>
                   <h2 className=' text-xs font-medium text-gray-300'>Total</h2>
                 </div>
               </div>
