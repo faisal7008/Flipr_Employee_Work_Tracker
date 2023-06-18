@@ -12,6 +12,8 @@ export default function Employees() {
   const dispatch = useDispatch();
   // const [status, setStatus] = useState('');
   const [deleteUsers, setDeleteUsers] = useState([]);
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleCheck = (e, empId) => {
     if (e.target.checked) {
@@ -35,21 +37,31 @@ export default function Employees() {
   };
 
   const editStatus = (empId, empStatus) => {
-    if(empStatus === 'active'){
-      dispatch(updateUserById({userId: empId, userData: {status: 'inactive'}}))
+    if (empStatus === 'active') {
+      dispatch(updateUserById({ userId: empId, userData: { status: 'inactive' } }));
     } else {
-      dispatch(updateUserById({userId: empId, userData: {status: 'active'}}))
+      dispatch(updateUserById({ userId: empId, userData: { status: 'active' } }));
     }
     toast.success('Success! Employee status is updated', {
       position: toast.POSITION.BOTTOM_RIGHT,
     });
-  }
+  };
 
   // console.log(deleteUsers)
   const { employees } = useSelector((state) => state.auth);
   useEffect(() => {
     dispatch(getAllEmployees());
   }, []);
+
+  useEffect(() => {
+    let filteredEmployees = employees
+    if (searchQuery) {
+      filteredEmployees = filteredEmployees.filter((emp) =>
+        emp.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      );
+    }
+    setFilteredEmployees(filteredEmployees);
+  }, [employees, searchQuery]);
 
   return (
     <div className='p-2 h-full  flex flex-col'>
@@ -69,30 +81,51 @@ export default function Employees() {
           <label htmlFor='simple-search' className='sr-only'>
             Search
           </label>
-          <div className='relative w-full sm:w-1/3'>
-            <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
-              <svg
-                aria-hidden='true'
-                className='w-6 h-6 text-gray-500 dark:text-gray-400'
-                fill='currentColor'
-                viewBox='0 0 20 20'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  fillRule='evenodd'
-                  d='M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z'
-                  clipRule='evenodd'
-                ></path>
-              </svg>
-            </div>
-            <input
-              type='text'
-              id='simple-search'
-              className='bg-gray-200 border border-gray-200 text-gray-900 text-sm rounded-md block w-full pl-12 p-2.5 focus:ring-success outline-success'
-              placeholder='Search'
-              required
-            />
+          <div className='relative w-full sm:w-1/2'>
+          <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
+            <svg
+              aria-hidden='true'
+              className='w-6 h-6 text-gray-500 dark:text-gray-400'
+              fill='currentColor'
+              viewBox='0 0 20 20'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path
+                fillRule='evenodd'
+                d='M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z'
+                clipRule='evenodd'
+              ></path>
+            </svg>
           </div>
+          <input
+            type='text'
+            id='simple-search'
+            className='bg-gray-200 border border-gray-200 text-gray-900 text-sm rounded-md block w-full pl-12 pr-8 py-2.5 focus:ring-success outline-success'
+            placeholder='Search'
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            required
+          />
+          {/* Clear button */}
+          {searchQuery && (
+            <button
+              className='absolute top-3 right-2 focus:outline-none'
+              onClick={() => setSearchQuery('')}
+            >
+              <svg
+                fill='none'
+                stroke='currentColor'
+                strokeWidth={2}
+                viewBox='0 0 24 24'
+                xmlns='http://www.w3.org/2000/svg'
+                aria-hidden='true'
+                className='w-5 h-5'
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
+              </svg>
+            </button>
+          )}
+        </div>
           <div className=' flex justify-between w-full'>
             <button
               className='btn btn-outline btn-success h-10 btn-sm'
@@ -155,7 +188,7 @@ export default function Employees() {
               </tr>
             </thead>
             <tbody>
-              {employees?.map((emp) => (
+              {filteredEmployees?.map((emp) => (
                 <tr key={emp.id}>
                   <th>
                     <label>
@@ -188,7 +221,14 @@ export default function Employees() {
                     <button className='btn btn-ghost btn-xs'>{emp.department}</button>
                   </td>
                   <td>{moment(emp.joiningDate).format('ll')}</td>
-                  <td><input onChange={() => editStatus(emp._id, emp.status)} type="checkbox" className="toggle toggle-success" checked={emp.status === 'active'} /></td>
+                  <td>
+                    <input
+                      onChange={() => editStatus(emp._id, emp.status)}
+                      type='checkbox'
+                      className='toggle toggle-success'
+                      checked={emp.status === 'active'}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>

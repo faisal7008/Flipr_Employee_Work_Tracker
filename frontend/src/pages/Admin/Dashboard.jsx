@@ -10,6 +10,7 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const { employees } = useSelector((state) => state.auth);
   const { tasks } = useSelector((state) => state.task);
+  const [searchQuery, setSearchQuery] = useState('');
   useEffect(() => {
     dispatch(getAllEmployees());
   }, []);
@@ -22,22 +23,38 @@ export default function Dashboard() {
     endDate: null,
   });
   const [filteredTasks, setFilteredTasks] = useState([]);
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
 
   const handleFilterDatesChange = (newfilterDates) => {
     setFilterDates(newfilterDates);
   };
 
   useEffect(() => {
+    let filteredEmployees = employees
+    if (searchQuery) {
+      filteredEmployees = filteredEmployees?.filter((emp) =>
+        emp.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      );
+    }
+    setFilteredEmployees(filteredEmployees);
+  }, [employees, searchQuery]);
+
+  useEffect(() => {
     const startDate = moment(filterDates.startDate);
     const endDate = moment(filterDates.endDate);
 
     let filteredTasks = tasks
-      .filter((task) => moment(task.startTime).isSameOrBefore(moment(), 'day'))
+      ?.filter((task) => moment(task.startTime).isSameOrBefore(moment(), 'day'))
       .sort((a, b) => moment(b.startTime).diff(moment(a.startTime)));
 
     if (startDate.isValid() && endDate.isValid()) {
-      filteredTasks = filteredTasks.filter((task) =>
+      filteredTasks = filteredTasks?.filter((task) =>
         moment(task.startTime).isBetween(startDate, endDate, 'day', '[]'),
+      );
+    }
+    if (searchQuery) {
+      filteredTasks = filteredTasks?.filter((task) =>
+        task.description.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     }
     setFilteredTasks(filteredTasks);
@@ -63,30 +80,51 @@ export default function Dashboard() {
               <label htmlFor='simple-search' className='sr-only'>
                 Search
               </label>
-              <div className='relative w-full sm:w-3/4'>
-                <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
-                  <svg
-                    aria-hidden='true'
-                    className='w-6 h-6 text-gray-500 dark:text-gray-400'
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z'
-                      clipRule='evenodd'
-                    ></path>
-                  </svg>
-                </div>
-                <input
-                  type='text'
-                  id='simple-search'
-                  className='bg-gray-200 border border-gray-200 text-gray-900 text-sm rounded-md block w-full pl-12 p-2.5 focus:ring-success outline-success'
-                  placeholder='Search breaks, meetings, or work'
-                  required
-                />
-              </div>
+              <div className='relative w-full lg:w-3/5'>
+          <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
+            <svg
+              aria-hidden='true'
+              className='w-6 h-6 text-gray-500 dark:text-gray-400'
+              fill='currentColor'
+              viewBox='0 0 20 20'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path
+                fillRule='evenodd'
+                d='M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z'
+                clipRule='evenodd'
+              ></path>
+            </svg>
+          </div>
+          <input
+            type='text'
+            id='simple-search'
+            className='bg-gray-200 border border-gray-200 text-gray-900 text-sm rounded-md block w-full pl-12 pr-8 py-2.5 focus:ring-success outline-success'
+            placeholder='Search breaks, meetings, or work'
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            required
+          />
+          {/* Clear button */}
+          {searchQuery && (
+            <button
+              className='absolute top-3 right-2 focus:outline-none'
+              onClick={() => setSearchQuery('')}
+            >
+              <svg
+                fill='none'
+                stroke='currentColor'
+                strokeWidth={2}
+                viewBox='0 0 24 24'
+                xmlns='http://www.w3.org/2000/svg'
+                aria-hidden='true'
+                className='w-5 h-5'
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
+              </svg>
+            </button>
+          )}
+        </div>
             </div>
             <div className='w-72'>
               <Datepicker
@@ -107,7 +145,7 @@ export default function Dashboard() {
           </div>
           <div className='employee-cards h-[20rem] overflow-y-auto scroll-container grow flex flex-col gap-2'>
             <div className='grid gap-3'>
-              {employees?.map((emp) => (
+              {filteredEmployees?.map((emp) => (
                 <div key={emp._id} onClick={() => handleClick(emp)}>
                   <EmployeeCard employee={emp} tasks={filteredTasks} />
                 </div>
@@ -136,7 +174,9 @@ export default function Dashboard() {
                   <div className='icon'></div>
                 </div>
                 <div className=' flex justify-between items-end'>
-                  <h2 className=' text-3xl font-semibold'>{employees.filter(emp => emp.status === 'active')?.length}</h2>
+                  <h2 className=' text-3xl font-semibold'>
+                    {employees?.filter((emp) => emp.status === 'active')?.length}
+                  </h2>
                   <h2 className=' text-xs font-medium text-gray-300'>Total</h2>
                 </div>
               </div>
@@ -148,9 +188,7 @@ export default function Dashboard() {
                   <div className='icon'></div>
                 </div>
                 <div className=' flex justify-between items-end'>
-                  <h2 className=' text-3xl font-semibold'>
-                    20
-                  </h2>
+                  <h2 className=' text-3xl font-semibold'>20</h2>
                   <h2 className=' text-xs font-medium text-gray-300'>Total</h2>
                 </div>
               </div>

@@ -20,6 +20,7 @@ export default function Tasks() {
     endDate: null,
   });
   const [filteredTasks, setFilteredTasks] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleTaskChange = (item) => {
     if (taskType !== item) {
@@ -61,8 +62,14 @@ export default function Tasks() {
       filteredTasks = filteredTasks.filter((task) => task.taskType === taskType);
     }
 
+    if (searchQuery) {
+      filteredTasks = filteredTasks.filter((task) =>
+        task.description.toLowerCase().includes(searchQuery.toLowerCase()),
+      );
+    }
+
     setFilteredTasks(filteredTasks);
-  }, [tasks, filterDates, taskType]);
+  }, [tasks, filterDates, taskType, searchQuery]);
 
   return (
     <div className='flex flex-col h-full p-2'>
@@ -123,10 +130,31 @@ export default function Tasks() {
           <input
             type='text'
             id='simple-search'
-            className='bg-gray-200 border border-gray-200 text-gray-900 text-sm rounded-md block w-full pl-12 p-2.5 focus:ring-success outline-success'
+            className='bg-gray-200 border border-gray-200 text-gray-900 text-sm rounded-md block w-full pl-12 pr-8 py-2.5 focus:ring-success outline-success'
             placeholder='Search breaks, meetings, or work'
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             required
           />
+          {/* Clear button */}
+          {searchQuery && (
+            <button
+              className='absolute top-3 right-2 focus:outline-none'
+              onClick={() => setSearchQuery('')}
+            >
+              <svg
+                fill='none'
+                stroke='currentColor'
+                strokeWidth={2}
+                viewBox='0 0 24 24'
+                xmlns='http://www.w3.org/2000/svg'
+                aria-hidden='true'
+                className='w-5 h-5'
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
+              </svg>
+            </button>
+          )}
         </div>
         <div className=' flex flex-col sm:flex-row gap-3 justify-between items-center w-full'>
           <div className=' flex gap-2 items-center'>

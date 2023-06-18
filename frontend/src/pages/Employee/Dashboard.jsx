@@ -9,12 +9,13 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { tasks } = useSelector((state) => state.task);
+
   // Calculate total hours
-  // const calculateTotalTime = () => {
   let totalTime = 0;
   let workTime = 0;
   let meetingTime = 0;
   let breakTime = 0;
+
   tasks.forEach((task) => {
     totalTime += task.timeTaken;
     if (task.taskType === 'Work') {
@@ -27,28 +28,26 @@ export default function Dashboard() {
       breakTime += task.timeTaken;
     }
   });
-  console.log(workTime);
-  console.log(meetingTime);
-  console.log(breakTime);
-  // const formattedHours = moment(totalTime).format('HH:mm', { trim: false });
-  // return formattedHours;
-  // };
+  
   const getFormattedTime = (timeInMinutes) => {
     if (timeInMinutes === 0) {
       return '00:00';
     }
-    const duration = moment.duration(timeInMinutes, 'minutes');
     // Extract hours and minutes
-    const hours = duration.hours();
-    const minutes = duration.minutes();
+    const hours = Math.floor(timeInMinutes / 60);
+    const minutes = timeInMinutes % 60;
+    // Pad the values with leading zeros if necessary
+    const formattedHours = String(hours).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0'); 
     // Format the time as "hh:mm"
-    const formattedTime = moment({ hours, minutes }).format('hh:mm');
+    const formattedTime = `${formattedHours}:${formattedMinutes}`;
     return formattedTime;
   };
-
+  
   useEffect(() => {
     dispatch(getTasksByEmployee({ employeeId: user._id }));
   }, []);
+
   return (
     <div className='flex p-2 md:pb-2 flex-col h-full scroll-container overflow-y-auto'>
       <div className='text-sm breadcrumbs overflow-visible'>
