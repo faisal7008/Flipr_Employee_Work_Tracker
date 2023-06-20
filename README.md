@@ -22,5 +22,8 @@ The Flipr Employee Work Tracker provides a comprehensive solution for recording,
 
 Note: A husky is set up for both backend and frontend to run lint and format commands when performing a 'git commit'.
 
+### To start project using docker
+run - docker-compose up
+
 ## Created By
 Mohammed Faisal Hussain
