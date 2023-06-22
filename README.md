@@ -25,5 +25,9 @@ Note: A husky is set up for both backend and frontend to run lint and format com
 ### To start project using docker
 run - docker-compose up
 
+### To login as Admin
+Email - admin@flipr.com
+Password - Admin@123
+
 ## Created By
 Mohammed Faisal Hussain
