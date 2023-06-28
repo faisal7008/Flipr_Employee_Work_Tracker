@@ -2,7 +2,7 @@ version: "3.8"
 services:
   backend:
     build:
-      context: .
+      context: ./backend
     ports:
       - "9000:9000"
     volumes:
@@ -13,7 +13,7 @@ services:
       - ./backend/.env
   frontend:
     build:
-      context: .
+      context: ./frontend
     ports:
       - "3000:3000"
     volumes:
