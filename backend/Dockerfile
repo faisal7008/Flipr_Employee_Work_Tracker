@@ -1,8 +1,7 @@
 FROM node:18
-WORKDIR /usr/src/app
-COPY package.json /usr/src/app/package.json
-COPY package-lock.json /usr/src/app/package-lock.json
-RUN npm ci
-COPY . /usr/src/app
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
 EXPOSE 9000
 CMD [ "npm", "start" ]
