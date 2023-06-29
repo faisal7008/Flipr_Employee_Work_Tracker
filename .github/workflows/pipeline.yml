@@ -11,6 +11,7 @@ on:
 env:
   JWT_SECRET: ${{ secrets.JWT_SECRET }}
   MONGO_URI: ${{ secrets.MONGO_URI }}
+  REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
 
 # This is the workflow that is being run.
 jobs:
@@ -26,14 +27,15 @@ jobs:
       - name: Install and Test Client
         working-directory: ./frontend
         run: |
-          npm install
+          npm ci --production --frozen-lockfile
+          export REACT_APP_API_URL=$REACT_APP_API_URL
           # npm run test
 
       # Install dependencies, export environment variables to be used by application and run tests for the backend application
       - name: Install and Test Server
         working-directory: ./backend
         run: |
-          npm install
+          npm ci --production --frozen-lockfile
           export JWT_SECRET=$JWT_SECRET
           export MONGO_URI=$MONGO_URI
           # npm run test

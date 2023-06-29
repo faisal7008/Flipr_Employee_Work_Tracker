@@ -13,7 +13,7 @@ services:
   client:
     image: faisal7008/worktrackr-app:frontend-latest
     environment:
-      - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
+      - REACT_APP_API_URL=${REACT_APP_API_URL}
 
   server:
     image: faisal7008/worktrackr-app:backend-latest
