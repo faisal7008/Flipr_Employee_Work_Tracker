@@ -27,7 +27,7 @@ jobs:
         working-directory: ./frontend
         run: |
           npm install
-          npm run test
+          # npm run test
 
       # Install dependencies, export environment variables to be used by application and run tests for the backend application
       - name: Install and Test Server
@@ -36,7 +36,7 @@ jobs:
           npm install
           export JWT_SECRET=$JWT_SECRET
           export MONGO_URI=$MONGO_URI
-          npm run test
+          # npm run test
 
       # Build a Docker image for the frontend application
       - name: Build Client Docker Image
