@@ -11,7 +11,6 @@ on:
 env:
   JWT_SECRET: ${{ secrets.JWT_SECRET }}
   MONGO_URI: ${{ secrets.MONGO_URI }}
-  REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
 
 # This is the workflow that is being run.
 jobs:
@@ -28,7 +27,6 @@ jobs:
         working-directory: ./frontend
         run: |
           npm install
-          REACT_APP_API_URL=$REACT_APP_API_URL
           npm run test
 
       # Install dependencies, export environment variables to be used by application and run tests for the backend application
