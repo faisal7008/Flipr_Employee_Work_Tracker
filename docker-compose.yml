@@ -8,15 +8,28 @@ services:
       - client
       - server
     ports:
-      - "80:80"
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
 
   client:
     image: faisal7008/worktrackr-app:frontend-latest
+    ports:
+      - '3000:3000'
     environment:
       - REACT_APP_API_URL=${REACT_APP_API_URL}
+    volumes:
+      - ./frontend:/app/frontend
 
   server:
     image: faisal7008/worktrackr-app:backend-latest
+    ports:
+      - '9000:9000'
     environment:
       - JWT_SECRET=${JWT_SECRET}
       - MONGO_URI=${MONGO_URI}
+    volumes:
+      - ./backend:/app/backend
+
+volumes:
+  client:
+  server:
