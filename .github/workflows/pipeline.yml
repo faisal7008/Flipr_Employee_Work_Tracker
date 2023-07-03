@@ -45,7 +45,7 @@ jobs:
         working-directory: ./frontend
         # Build image with tag faisal7008/worktrackr-app:frontend
         run: |
-          docker build -t faisal7008/worktrackr-app:frontend-${{github.run_number}} -t faisal7008/worktrackr-app:frontend-latest .
+          docker build --no-cache -t faisal7008/worktrackr-app:frontend-${{github.run_number}} -t faisal7008/worktrackr-app:frontend-latest .
 
       # Build a Docker image for the backend application
       - name: Build Server Docker Image
@@ -53,7 +53,7 @@ jobs:
           ./backend
           # Build image with tag faisal7008/worktrackr-app:backend
         run: |
-          docker build -t faisal7008/worktrackr-app:backend-${{github.run_number}} -t faisal7008/worktrackr-app:backend-latest .
+          docker build --no-cache -t faisal7008/worktrackr-app:backend-${{github.run_number}} -t faisal7008/worktrackr-app:backend-latest .
 
       # Build a Docker image for the NGINX reverse proxy
       - name: Build NGINX Docker Image
