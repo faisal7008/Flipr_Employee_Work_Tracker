@@ -112,8 +112,11 @@ export const deleteUserById = createAsyncThunk(
   },
 );
 
-const user = JSON.parse(localStorage.getItem('user')) || null;
-const token = JSON.parse(localStorage.getItem('token')) || null;
+const userJson = localStorage.getItem('user');
+const user = userJson ? JSON.parse(userJson) : null;
+const tokenJson = localStorage.getItem('token');
+const token = tokenJson ? JSON.parse(tokenJson) : null;
+
 
 const initialState = {
   user: user || null,
