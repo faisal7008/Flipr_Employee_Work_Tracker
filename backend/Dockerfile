@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:18-alpine
 WORKDIR /app/backend
 COPY package*.json ./
 RUN npm ci --production --frozen-lockfile
