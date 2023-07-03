@@ -7,7 +7,7 @@ export const registerUser = createAsyncThunk(
   async (userData, { rejectWithValue, getState }) => {
     try {
       const token = getState().auth.token;
-      console.log(token);
+      // console.log(token);
       const response = await authService.registerUser(token, userData);
       return response;
     } catch (error) {

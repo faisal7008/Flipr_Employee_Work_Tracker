@@ -82,8 +82,8 @@ const StackedBarChart = ({ data: weeklyData }) => {
   const barChartData = processWeeklyData();
   const xaxisDates = getWeekDates();
 
-  console.log(xaxisDates);
-  console.log(barChartData);
+  // console.log(xaxisDates);
+  // console.log(barChartData);
 
   const options = {
     chart: {
