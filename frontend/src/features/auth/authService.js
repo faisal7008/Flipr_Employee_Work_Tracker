@@ -24,8 +24,8 @@ export const loginUser = async (userData) => {
     console.log(userData);
     const response = await axios.post(api_url + '/auth/login', userData);
     if (response.data) {
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      localStorage.setItem('token', JSON.stringify(response.data.token));
+      localStorage.setItem('worktrackr_user', JSON.stringify(response.data.user));
+      localStorage.setItem('worktrackr_token', JSON.stringify(response.data.token));
     }
     return response.data;
   } catch (error) {

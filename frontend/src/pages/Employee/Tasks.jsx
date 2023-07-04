@@ -76,14 +76,14 @@ export default function Tasks() {
           </li>
         </ul>
       </div>
-      <div className=' flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center w-full'>
+      <div className=' flex gap-3 justify-between items-center w-full'>
         <div>
           <h2 className=' text-2xl font-semibold tracking-wide'>Tasks</h2>
-          <p className='text-xs my-2 text-gray-500'>
+          <p className='text-xs my-2 text-gray-500 hidden md:block'>
             Where does your joy reside: breaks, meetings, or work?
           </p>
         </div>
-        <div className=' w-80'>
+        <div className='w-60 sm:w-72 mt-2 sm:mt-0 z-20'>
           <Datepicker
             popoverDirection='down'
             separator={'-'}
@@ -91,7 +91,7 @@ export default function Tasks() {
             // containerClassName={' group'}
             placeholder={'filter dates'}
             inputClassName={
-              ' btn btn-wide btn-success border-2 focus:border btn-outline rounded-full tracking-wide w-full'
+              ' btn btn-success border-2 focus:border btn-outline rounded-full tracking-wide w-full'
             }
             toggleClassName={' absolute left-5 mt-[14px]'}
             // containerClassName={'z-[9999]'}
@@ -100,11 +100,11 @@ export default function Tasks() {
           />
         </div>
       </div>
-      <div className='flex flex-col mt-4 sm:flex-row gap-4 items-start sm:items-center'>
+      <div className='flex flex-col mt-4 lg:flex-row gap-4 items-start sm:items-center'>
         <label htmlFor='simple-search' className='sr-only'>
           Search
         </label>
-        <div className='relative w-full sm:w-1/2'>
+        <div className='relative w-full lg:w-1/2'>
           <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
             <svg
               aria-hidden='true'
@@ -129,7 +129,7 @@ export default function Tasks() {
           />
         </div>
         <div className=' flex flex-col sm:flex-row gap-3 justify-between items-center w-full'>
-          <div className=' flex gap-2 items-center'>
+          <div className='flex gap-2 items-center'>
             <button
               className='btn btn-outline btn-success h-10 btn-sm'
               onClick={() => window.task_modal.showModal()}
@@ -179,11 +179,11 @@ export default function Tasks() {
         <TaskModal />
       </div>
 
-      <div className='mt-3 h-full flex-grow scroll-container overflow-auto'>
+      <div className='mt-3 h-full flex-grow scroll-container scroll-smooth overflow-x-auto'>
         {filteredTasks.length > 0 ? (
-          <table className='table relative w-full p-2 border-separate border-spacing-y-3'>
-            <thead>
-              <tr className='sticky top-0 bg-transparent'>
+          <table className='table relative w-full border-separate border-spacing-y-4'>
+            <thead className='sticky top-0 bg-slate-100 z-10'>
+              <tr>
                 <th className='text-sm'>Description</th>
                 <th className='text-sm'>Type</th>
                 <th className='text-sm'>Date</th>
