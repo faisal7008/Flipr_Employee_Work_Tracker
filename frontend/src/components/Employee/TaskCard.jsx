@@ -23,7 +23,7 @@ export default function TaskCard({ task }) {
   };
 
   return (
-    <tr className='h-20 mt-4 drop-shadow-md rounded-xl border-transparent bg-white'>
+    <tr className='h-20 drop-shadow-md rounded-xl border-transparent bg-white'>
       <th className=' rounded-l-xl'>
         <textarea
           ref={textareaRef}
@@ -53,7 +53,7 @@ export default function TaskCard({ task }) {
       </td>
       <td>
         {' '}
-        <button type='button' className='btn btn-sm'>
+        <button type='button' className='btn btn-sm whitespace-nowrap'>
           {moment(task.startTime).isSame(moment(), 'day')
             ? 'Today'
             : moment(task.startTime).isSame(moment().subtract(1, 'day'), 'day')
@@ -63,7 +63,7 @@ export default function TaskCard({ task }) {
       </td>
       <td>
         <input
-          type='time'
+          type='text'
           className='input input-group-md input-sm sm:w-full font-semibold border-none outline-none hover:bg-gray-100 focus:bg-gray-200'
           name='start-time'
           value={startingTime}
@@ -71,7 +71,7 @@ export default function TaskCard({ task }) {
       </td>
       <td>
         <input
-          type='time'
+          type='text'
           className='input input-group-md input-sm sm:w-full font-semibold border-none outline-none hover:bg-gray-100 focus:bg-gray-200'
           name='start-time'
           value={endingTime}
@@ -81,7 +81,7 @@ export default function TaskCard({ task }) {
         {' '}
         <div className='relative'>
           <input
-            type='number'
+            type='text'
             className=' input input-group-sm input-sm font-semibold border-none outline-none hover:bg-gray-100 focus:bg-gray-200'
             value={task.timeTaken}
           />
