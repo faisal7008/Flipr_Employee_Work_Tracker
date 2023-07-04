@@ -128,7 +128,7 @@ const StackedBarChart = ({ data: weeklyData, height, border }) => {
     },
     yaxis: {
       labels: {
-        formatter: (value) => `${Math.floor(value / 60)} hours`, // Convert minutes to hours
+        formatter: (value) => `${value} minutes`, // Convert minutes to hours
       },
     },
     legend: {
