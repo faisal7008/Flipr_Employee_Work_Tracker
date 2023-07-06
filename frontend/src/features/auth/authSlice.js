@@ -117,7 +117,6 @@ const user = userJson ? JSON.parse(userJson) : null;
 const tokenJson = localStorage.getItem('worktrackr_token');
 const token = tokenJson ? JSON.parse(tokenJson) : null;
 
-
 const initialState = {
   user: user || null,
   profile: [],

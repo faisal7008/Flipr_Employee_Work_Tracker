@@ -28,7 +28,7 @@ export default function Dashboard() {
       breakTime += task.timeTaken;
     }
   });
-  
+
   const getFormattedTime = (timeInMinutes) => {
     if (timeInMinutes === 0) {
       return '00:00';
@@ -38,12 +38,12 @@ export default function Dashboard() {
     const minutes = timeInMinutes % 60;
     // Pad the values with leading zeros if necessary
     const formattedHours = String(hours).padStart(2, '0');
-    const formattedMinutes = String(minutes).padStart(2, '0'); 
+    const formattedMinutes = String(minutes).padStart(2, '0');
     // Format the time as "hh:mm"
     const formattedTime = `${formattedHours}:${formattedMinutes}`;
     return formattedTime;
   };
-  
+
   useEffect(() => {
     dispatch(getTasksByEmployee({ employeeId: user._id }));
   }, []);
