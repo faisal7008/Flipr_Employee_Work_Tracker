@@ -7,7 +7,7 @@ export const registerUser = createAsyncThunk(
   async (userData, { rejectWithValue, getState }) => {
     try {
       const token = getState().auth.token;
-      console.log(token);
+      // console.log(token);
       const response = await authService.registerUser(token, userData);
       return response;
     } catch (error) {
@@ -112,8 +112,10 @@ export const deleteUserById = createAsyncThunk(
   },
 );
 
-const user = JSON.parse(localStorage.getItem('user'));
-const token = JSON.parse(localStorage.getItem('token'));
+const userJson = localStorage.getItem('worktrackr_user');
+const user = userJson ? JSON.parse(userJson) : null;
+const tokenJson = localStorage.getItem('worktrackr_token');
+const token = tokenJson ? JSON.parse(tokenJson) : null;
 
 const initialState = {
   user: user || null,

@@ -1,3 +1,8 @@
-node_modules
 Dockerfile
-.git;
+.dockerignore
+node_modules
+npm-debug.log
+README.md
+.git
+yarn-error.log
+.env

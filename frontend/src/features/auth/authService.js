@@ -10,7 +10,7 @@ export const registerUser = async (token, userData) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    console.log(config);
+    // console.log(config);
     const response = await axios.post(api_url + '/auth/register', userData, config);
     return response.data;
   } catch (error) {
@@ -21,11 +21,11 @@ export const registerUser = async (token, userData) => {
 // Login a user
 export const loginUser = async (userData) => {
   try {
-    console.log(userData);
+    // console.log(userData);
     const response = await axios.post(api_url + '/auth/login', userData);
     if (response.data) {
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      localStorage.setItem('token', JSON.stringify(response.data.token));
+      localStorage.setItem('worktrackr_user', JSON.stringify(response.data.user));
+      localStorage.setItem('worktrackr_token', JSON.stringify(response.data.token));
     }
     return response.data;
   } catch (error) {
@@ -117,7 +117,7 @@ export const deleteUserById = async (token, userId) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    console.log(userId);
+    // console.log(userId);
     const response = await axios.delete(api_url + `/auth/users/${userId}`, config);
     return response.data;
   } catch (error) {

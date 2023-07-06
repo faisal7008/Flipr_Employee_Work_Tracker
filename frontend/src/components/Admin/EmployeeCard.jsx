@@ -9,8 +9,8 @@ const userimage =
 
 export default function EmployeeCard({ employee, tasks }) {
   return (
-    <div className='collapse bg-base-100 shadow-md '>
-      <input type='radio' name='my-accordion-1' />
+    <div className='collapse collapse-arrow bg-base-100 shadow-md '>
+      <input type='checkbox' />
       <div className='collapse-title text-xl font-medium'>
         <div className='flex gap-2 justify-between'>
           <div className='flex items-center space-x-3'>

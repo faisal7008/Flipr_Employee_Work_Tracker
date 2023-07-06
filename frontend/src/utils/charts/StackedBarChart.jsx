@@ -128,7 +128,7 @@ const StackedBarChart = ({ data: weeklyData, height, border }) => {
     },
     yaxis: {
       labels: {
-        formatter: (value) => `${Math.floor(value / 60)} hours`, // Convert minutes to hours
+        formatter: (value) => `${value} minutes`, // Convert minutes to hours
       },
     },
     legend: {
@@ -150,7 +150,7 @@ const StackedBarChart = ({ data: weeklyData, height, border }) => {
           <button
             type='button'
             onClick={() => handleChange('previous')}
-            className={`btn btn-neutral btn-sm`}
+            className={`btn btn-neutral text-sm btn-sm`}
           >
             <svg
               fill='none'
@@ -163,16 +163,16 @@ const StackedBarChart = ({ data: weeklyData, height, border }) => {
             >
               <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' />
             </svg>
-            Previous
+            <span className='hidden md:block'>Previous</span>
           </button>
           <button
             type='button'
             onClick={() => handleChange('next')}
-            className={`btn btn-neutral btn-sm ${
+            className={`btn btn-neutral text-sm btn-sm ${
               currentDate.isSame(moment(), 'day') && 'btn-disabled'
             }`}
           >
-            Next
+            <span className='hidden md:block'>Next</span>
             <svg
               fill='none'
               stroke='currentColor'
