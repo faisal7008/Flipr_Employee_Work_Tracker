@@ -164,7 +164,7 @@ export default function Profile() {
           <h2 className='text-2xl text-gray-900 font-semibold tracking-wide'>Profile</h2>
           <p className='text-xs my-2 text-gray-500'>Update photo and personal details here</p>
         </div>
-        <div className='grow max-w-lg'>
+        <div className='grow max-w-lg px-1'>
           <div className='flex sm:justify-end gap-2'>
             <svg
               fill='none'
@@ -219,12 +219,12 @@ export default function Profile() {
         <form className='max-h-full grid'>
           <div className='flex flex-col py-3 sm:flex-row border-t-[1px] border-gray-200'>
             <div className='w-full sm:w-1/4'>
-              <h2 className='text-gray-700 w-full text-sm py-1 font-semibold'>
+              <h2 className='text-gray-700 w-full text-sm py-2 font-semibold'>
                 {' '}
                 Name
               </h2>
             </div>
-            <div className='grow max-w-lg'>
+            <div className='grow max-w-lg px-1'>
               <input
                 type='text'
                 placeholder='Name'
@@ -243,12 +243,12 @@ export default function Profile() {
           </div>
           <div className='flex flex-col py-3 sm:flex-row border-t-[1px] border-gray-200'>
             <div className='w-full sm:w-1/4'>
-              <h2 className=' text-gray-700 w-full text-sm py-1 font-semibold'>
+              <h2 className=' text-gray-700 w-full text-sm py-2 font-semibold'>
                 {' '}
                 Email
               </h2>
             </div>
-            <div className='grow max-w-lg'>
+            <div className='grow max-w-lg px-1'>
               <input
                 type='email'
                 placeholder='Email'
@@ -259,13 +259,13 @@ export default function Profile() {
           </div>
           <div className='flex flex-col py-3 sm:flex-row border-t-[1px] border-gray-200'>
             <div className='w-full sm:w-1/4'>
-              <h2 className=' text-gray-700 w-full text-sm py-1 font-semibold'>
+              <h2 className=' text-gray-700 w-full text-sm py-2 font-semibold'>
                 {' '}
                 Your photo
               </h2>
               <p className=' text-xs text-gray-500'>This will be displayed on your profile.</p>
             </div>
-            <div className='py-2 grow flex justify-between items-end sm:items-start max-w-lg'>
+            <div className='py-2 grow flex justify-between items-end sm:items-start max-w-lg px-1'>
               <div className='avatar'>
                 <div className='w-20 rounded-full'>
                   <img src={userimage} />
@@ -288,12 +288,12 @@ export default function Profile() {
           </div>
           <div className='flex flex-col py-3 sm:flex-row border-t-[1px] border-gray-200'>
             <div className='w-full sm:w-1/4'>
-              <h2 className='text-gray-700 w-full text-sm py-1 font-semibold'>
+              <h2 className='text-gray-700 w-full text-sm py-2 font-semibold'>
                 {' '}
                 Contact Number
               </h2>
             </div>
-            <div className='grow max-w-lg'>
+            <div className='grow max-w-lg px-1'>
               <input
                 type='text'
                 className={`input input-bordered input-md w-full ${
@@ -319,12 +319,12 @@ export default function Profile() {
           </div>
           <div className='flex flex-col py-3 sm:flex-row border-t-[1px] border-gray-200'>
             <div className='w-full sm:w-1/4'>
-              <h2 className='text-gray-700 w-full text-sm py-1 font-semibold'>
+              <h2 className='text-gray-700 w-full text-sm py-2 font-semibold'>
                 {' '}
                 Department
               </h2>
             </div>
-            <div className='grow max-w-lg'>
+            <div className='grow max-w-lg px-1'>
               <input
                 type='text'
                 placeholder='Department'
@@ -343,12 +343,12 @@ export default function Profile() {
           </div>
           <div className='flex flex-col py-3 sm:flex-row border-t-[1px] border-gray-200'>
             <div className='w-full sm:w-1/4'>
-              <h2 className='text-gray-700 w-full text-sm py-1 font-semibold'>
+              <h2 className='text-gray-700 w-full text-sm py-2 font-semibold'>
                 {' '}
                 Current Password
               </h2>
             </div>
-            <div className=' max-w-lg grow'>
+            <div className=' max-w-lg px-1 grow'>
               <div className='relative'>
               <input
                 type={showPassword1 ? 'text' : 'password'}
@@ -418,12 +418,12 @@ export default function Profile() {
           </div>
           <div className='flex flex-col py-3 sm:flex-row border-y-[1px] border-gray-200'>
             <div className='w-full sm:w-1/4'>
-              <h2 className='text-gray-700 w-full text-sm py-1 font-semibold'>
+              <h2 className='text-gray-700 w-full text-sm py-2 font-semibold'>
                 {' '}
                 New Password
               </h2>
             </div>
-            <div className=' grow max-w-lg'>
+            <div className=' grow max-w-lg px-1'>
               <div className='relative'>
               <input
                 type={showPassword2 ? 'text' : 'password'}
