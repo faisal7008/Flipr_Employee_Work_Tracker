@@ -106,6 +106,7 @@ export default function Tasks() {
             onChange={handleFilterDatesChange}
           />
         </div>
+        
       </div>
       <div className='flex flex-col mt-4 lg:flex-row gap-4 items-start sm:items-center'>
         <label htmlFor='simple-search' className='sr-only'>

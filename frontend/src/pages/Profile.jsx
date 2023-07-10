@@ -16,9 +16,9 @@ export default function Profile() {
   const [contactNumber, setContactNumber] = useState(profile?.contactNumber);
   const [department, setDepartment] = useState(profile?.department);
   const [password, setPassword] = useState('');
-  //   const [confirmPassword, setConfirmPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [showPassword1, setShowPassword1] = useState(false);
-  //   const [showPassword2, setShowPassword2] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
@@ -27,9 +27,9 @@ export default function Profile() {
     setContactNumber(profile?.contactNumber);
     setDepartment(profile?.department);
     setPassword('');
+    setNewPassword('');
     setErrorMsg('');
     setPasswordError('');
-    // setConfirmPassword('')
   };
 
   useEffect(() => {
@@ -47,27 +47,27 @@ export default function Profile() {
     const numberRegex = /[0-9]/;
     const specialCharRegex = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
 
-    if (password.length < minLength) {
+    if (newPassword.length < minLength) {
       setPasswordError('Password must be at least 8 characters long.');
       return false;
     }
 
-    if (!uppercaseRegex.test(password)) {
+    if (!uppercaseRegex.test(newPassword)) {
       setPasswordError('Password must contain at least one uppercase letter.');
       return false;
     }
 
-    if (!lowercaseRegex.test(password)) {
+    if (!lowercaseRegex.test(newPassword)) {
       setPasswordError('Password must contain at least one lowercase letter.');
       return false;
     }
 
-    if (!numberRegex.test(password)) {
+    if (!numberRegex.test(newPassword)) {
       setPasswordError('Password must contain at least one number.');
       return false;
     }
 
-    if (!specialCharRegex.test(password)) {
+    if (!specialCharRegex.test(newPassword)) {
       setPasswordError('Password must contain at least one special character.');
       return false;
     }
@@ -95,8 +95,12 @@ export default function Profile() {
       setErrorMsg('department');
       return;
     }
-    if (password) {
-      // Validate the password
+    if(!password) {
+      setErrorMsg('password');
+      return;
+    }
+    if (newPassword) {
+      // Validate the newPassword
       if (!validatePassword()) {
         return;
       }
@@ -108,14 +112,39 @@ export default function Profile() {
       contactNumber,
       department,
       password,
+      newPassword
     };
     console.log(userData);
-    dispatch(updateMe(userData));
+    dispatch(updateMe(userData))
+      .then((response) => {
+        const { message, passwordMsg, passwordError } = response.payload;
+        // Handle the response data here
+        // console.log('User:', user);
+        console.log('Message:', message);
+        console.log('Password Message:', passwordMsg);
+        if(message){
+          toast.success(message, {
+            position: toast.POSITION.BOTTOM_RIGHT,
+          });
+        }
+        if(passwordMsg){
+          toast.success(passwordMsg, {
+            position: toast.POSITION.BOTTOM_RIGHT,
+          });
+        }
+        if(passwordError){
+          toast.error(passwordError, {
+            position: toast.POSITION.BOTTOM_RIGHT,
+          });
+        }
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the request
+        console.error(error);
+      });
     dispatch(clearError());
 
-    toast.success('Success! Profile updated', {
-      position: toast.POSITION.BOTTOM_RIGHT,
-    });
+    
   };
 
   return (
@@ -135,7 +164,7 @@ export default function Profile() {
           <h2 className='text-2xl text-gray-900 font-semibold tracking-wide'>Profile</h2>
           <p className='text-xs my-2 text-gray-500'>Update photo and personal details here</p>
         </div>
-        <div className='grow max-w-lg'>
+        <div className='grow max-w-lg px-1'>
           <div className='flex sm:justify-end gap-2'>
             <svg
               fill='none'
@@ -152,7 +181,7 @@ export default function Profile() {
                 d='M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z'
               />
             </svg>
-            <p className=' text-sm font-light'>
+            <p className=' whitespace-nowrap text-sm font-light'>
               Joined{' '}
               <span className=' text-gray-900 font-semibold'>
                 {' '}
@@ -190,12 +219,12 @@ export default function Profile() {
         <form className='max-h-full grid'>
           <div className='flex flex-col py-3 sm:flex-row border-t-[1px] border-gray-200'>
             <div className='w-full sm:w-1/4'>
-              <h2 className='text-gray-700 w-full text-sm sm:text-base py-1 font-semibold'>
+              <h2 className='text-gray-700 w-full text-sm py-2 font-semibold'>
                 {' '}
                 Name
               </h2>
             </div>
-            <div className='px-1 py-1 grow max-w-lg'>
+            <div className='grow max-w-lg px-1'>
               <input
                 type='text'
                 placeholder='Name'
@@ -206,7 +235,7 @@ export default function Profile() {
                 onChange={(e) => setName(e.target.value)}
               />
               {errorMsg === 'name' && (
-                <label className='label pt-[1px] pb-0 -mb-4'>
+                <label className='label pt-[1px] pb-0 -mb-2'>
                   <span className='label-text-alt text-error'>Please enter full name</span>
                 </label>
               )}
@@ -214,12 +243,12 @@ export default function Profile() {
           </div>
           <div className='flex flex-col py-3 sm:flex-row border-t-[1px] border-gray-200'>
             <div className='w-full sm:w-1/4'>
-              <h2 className=' text-gray-700 w-full text-sm sm:text-base py-1 font-semibold'>
+              <h2 className=' text-gray-700 w-full text-sm py-2 font-semibold'>
                 {' '}
                 Email
               </h2>
             </div>
-            <div className='px-1 py-1 grow max-w-lg'>
+            <div className='grow max-w-lg px-1'>
               <input
                 type='email'
                 placeholder='Email'
@@ -230,13 +259,13 @@ export default function Profile() {
           </div>
           <div className='flex flex-col py-3 sm:flex-row border-t-[1px] border-gray-200'>
             <div className='w-full sm:w-1/4'>
-              <h2 className=' text-gray-700 w-full text-sm sm:text-base py-1 font-semibold'>
+              <h2 className=' text-gray-700 w-full text-sm py-2 font-semibold'>
                 {' '}
                 Your photo
               </h2>
               <p className=' text-xs text-gray-500'>This will be displayed on your profile.</p>
             </div>
-            <div className='py-2 grow flex justify-between items-end sm:items-start max-w-lg'>
+            <div className='py-2 grow flex justify-between items-end sm:items-start max-w-lg px-1'>
               <div className='avatar'>
                 <div className='w-20 rounded-full'>
                   <img src={userimage} />
@@ -259,12 +288,12 @@ export default function Profile() {
           </div>
           <div className='flex flex-col py-3 sm:flex-row border-t-[1px] border-gray-200'>
             <div className='w-full sm:w-1/4'>
-              <h2 className='text-gray-700 w-full text-sm sm:text-base py-1 font-semibold'>
+              <h2 className='text-gray-700 w-full text-sm py-2 font-semibold'>
                 {' '}
                 Contact Number
               </h2>
             </div>
-            <div className='px-1 py-1 grow max-w-lg'>
+            <div className='grow max-w-lg px-1'>
               <input
                 type='text'
                 className={`input input-bordered input-md w-full ${
@@ -275,12 +304,12 @@ export default function Profile() {
               />
 
               {errorMsg === 'contactNumber' && (
-                <label className='label pt-[1px] pb-0 -mb-4'>
+                <label className='label pt-[1px] pb-0 -mb-2'>
                   <span className='label-text-alt text-error'>Please enter contact number</span>
                 </label>
               )}
               {errorMsg === 'invalidContact' && (
-                <label className='label pt-[1px] pb-0 -mb-4'>
+                <label className='label pt-[1px] pb-0 -mb-2'>
                   <span className='label-text-alt text-error'>
                     Contact number must be a 10-digit number
                   </span>
@@ -290,12 +319,12 @@ export default function Profile() {
           </div>
           <div className='flex flex-col py-3 sm:flex-row border-t-[1px] border-gray-200'>
             <div className='w-full sm:w-1/4'>
-              <h2 className='text-gray-700 w-full text-sm sm:text-base py-1 font-semibold'>
+              <h2 className='text-gray-700 w-full text-sm py-2 font-semibold'>
                 {' '}
                 Department
               </h2>
             </div>
-            <div className='px-1 py-1 grow max-w-lg'>
+            <div className='grow max-w-lg px-1'>
               <input
                 type='text'
                 placeholder='Department'
@@ -306,23 +335,24 @@ export default function Profile() {
                 onChange={(e) => setDepartment(e.target.value)}
               />
               {errorMsg === 'department' && (
-                <label className='label pt-[1px] pb-0 -mb-4'>
+                <label className='label pt-[1px] pb-0 -mb-2'>
                   <span className='label-text-alt text-error'>Please enter the department</span>
                 </label>
               )}
             </div>
           </div>
-          <div className='flex flex-col py-3 sm:flex-row border-y-[1px] border-gray-200'>
+          <div className='flex flex-col py-3 sm:flex-row border-t-[1px] border-gray-200'>
             <div className='w-full sm:w-1/4'>
-              <h2 className='text-gray-700 w-full text-sm sm:text-base py-1 font-semibold'>
+              <h2 className='text-gray-700 w-full text-sm py-2 font-semibold'>
                 {' '}
-                Password
+                Current Password
               </h2>
             </div>
-            <div className='py-1 relative max-w-lg grow'>
+            <div className=' max-w-lg px-1 grow'>
+              <div className='relative'>
               <input
                 type={showPassword1 ? 'text' : 'password'}
-                placeholder='Password'
+                placeholder='Current Password'
                 className={`input input-bordered input-md w-full pr-10 ${
                   errorMsg === 'password' ? 'input-error' : 'input-success'
                 }`}
@@ -332,7 +362,7 @@ export default function Profile() {
               <button
                 type='button'
                 onClick={() => setShowPassword1((prev) => !prev)}
-                className=' absolute bottom-4 right-3'
+                className=' absolute bottom-3 right-3'
               >
                 {showPassword1 ? (
                   <svg
@@ -373,37 +403,41 @@ export default function Profile() {
                   </svg>
                 )}
               </button>
+              </div>
               {errorMsg === 'password' && (
-                <label className='label pt-[1px] pb-0 -mb-4'>
-                  <span className='label-text-alt text-error'>Please enter password</span>
+                <label className='label pt-[1px] pb-0 -mb-2'>
+                  <span className='label-text-alt text-error'>Please enter current password</span>
                 </label>
               )}
-              {passwordError && (
-                <label className='label pt-[1px] pb-0 -mb-4'>
+              {/* {passwordError && (
+                <label className='label pt-[1px] pb-0 -mb-2'>
                   <span className='label-text-alt text-error'>{passwordError}</span>
                 </label>
-              )}
+              )} */}
             </div>
           </div>
-          {/* <div className='flex flex-col py-3 sm:flex-row border-y-[1px] border-gray-200'>
+          <div className='flex flex-col py-3 sm:flex-row border-y-[1px] border-gray-200'>
             <div className='w-full sm:w-1/4'>
-              <h2 className='text-gray-700 w-full text-sm sm:text-base py-1 font-semibold'>
+              <h2 className='text-gray-700 w-full text-sm py-2 font-semibold'>
                 {' '}
-                Confirm Password
+                New Password
               </h2>
             </div>
-            <div className='py-1 relative grow max-w-lg'>
+            <div className=' grow max-w-lg px-1'>
+              <div className='relative'>
               <input
                 type={showPassword2 ? 'text' : 'password'}
-                placeholder='Confirm Password'
-                className='input input-bordered input-md w-full'
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder='New Password'
+                className={`input input-bordered input-md w-full pr-10 ${
+                  errorMsg === 'newpassword' ? 'input-error' : 'input-success'
+                }`}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
               />
               <button
                 type='button'
                 onClick={() => setShowPassword2((prev) => !prev)}
-                className=' absolute bottom-4 right-3'
+                className=' absolute bottom-3 right-3'
               >
                 {showPassword2 ? (
                   <svg
@@ -443,14 +477,20 @@ export default function Profile() {
                     />
                   </svg>
                 )}
-            {errorMsg === 'confirmpassword' && (
-              <label className='label pt-[1px] pb-0 -mb-4'>
-                <span className='label-text-alt text-error'>Password and Confirm password should be the same</span>
-              </label>
-            )}
               </button>
+              </div>
+             {errorMsg === 'newpassword' && (
+                <label className='label pt-[1px] pb-0 -mb-2'>
+                  <span className='label-text-alt text-error'>Please enter new password</span>
+                </label>
+              )}
+              {passwordError && (
+                <label className='label pt-[1px] pb-0 -mb-2'>
+                  <span className='label-text-alt text-error'>{passwordError}</span>
+                </label>
+              )}
             </div>
-          </div> */}
+          </div>
           <div className='flex sm:max-w-3xl sm:ml-8 gap-2 mt-2 py-3 justify-end border-gray-200'>
             <button
               type='button'
@@ -467,7 +507,7 @@ export default function Profile() {
                   name !== profile?.name ||
                   contactNumber !== profile?.contactNumber ||
                   department !== profile?.department ||
-                  password !== ''
+                  newPassword !== ''
                 ) && 'btn-disabled'
               }`}
             >

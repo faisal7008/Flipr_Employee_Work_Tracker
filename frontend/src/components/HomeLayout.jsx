@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Sidebar from './Sidebar';
 import { Outlet } from 'react-router-dom';
 
 export default function HomeLayout() {
   const [isOpen, setIsOpen] = useState(false);
+  const sidebarRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
   return (
     <div className='h-screen flex'>
       <aside
-        className={`fixed lg:hidden inset-y-0 left-0 z-10 w-64 bg-slate-900 shadow-lg transform transition-transform duration-300 ease-in-out ${
+        ref={sidebarRef}
+        className={`fixed lg:hidden inset-y-0 left-0 z-[1500] w-64 bg-slate-900 shadow-lg transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         id='mobile-nav'

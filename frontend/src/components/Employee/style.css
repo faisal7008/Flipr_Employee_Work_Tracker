@@ -1,0 +1,8 @@
+.MuiInputBase-input{
+    padding: 4px 10px !important;
+    line-height: 1.25rem/* 20px */;
+    font-size: smaller;
+    background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+    border: none;
+    outline: none;
+}

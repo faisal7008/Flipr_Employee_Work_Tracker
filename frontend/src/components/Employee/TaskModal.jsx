@@ -2,11 +2,14 @@ import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { createTask, clearError } from '../../features/task/taskSlice';
+import DatePickerModal from './DatePickerModal';
+import TimePickerModal from './TimePickerModal';
 
 export default function TaskModal() {
   const [description, setDescription] = useState('');
   const [taskType, setTaskType] = useState('');
-  const [startTime, setStartTime] = useState('');
+  const [date, setDate] = useState(null);
+  const [time, setTime] = useState(null);
   const [timeTaken, setTimeTaken] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const closeButtonRef = useRef(null);
@@ -15,7 +18,8 @@ export default function TaskModal() {
   const resetState = () => {
     setDescription('');
     setTaskType('');
-    setStartTime('');
+    setDate(null);
+    setTime(null);
     setTimeTaken('');
   };
 
@@ -35,8 +39,12 @@ export default function TaskModal() {
       setErrorMsg('taskType');
       return;
     }
-    if (!startTime) {
-      setErrorMsg('startTime');
+    if (!date) {
+      setErrorMsg('date');
+      return;
+    }
+    if (!time) {
+      setErrorMsg('time');
       return;
     }
     if (!timeTaken) {
@@ -44,6 +52,11 @@ export default function TaskModal() {
       return;
     }
     setErrorMsg('');
+
+    const startTime = date
+    .hours(time.hours())
+    .minutes(time.minutes())
+    .seconds(time.seconds());
 
     const taskData = {
       description,
@@ -66,8 +79,8 @@ export default function TaskModal() {
 
   return (
     <div>
-      <dialog id='task_modal' className='modal z-10 overflow-hidden'>
-        <form method='dialog' className='modal-box grid z-20 px-7 gap-2 overflow-hidden'>
+      <dialog id='task_modal' className='modal overflow-hidden'>
+        <form method='dialog' className='modal-box w-11/12 max-w-xl grid px-7 gap-2 overflow-hidden'>
           <h2 className=' text-center text-xl font-semibold tracking-wide uppercase text-gray-800'>
             Add Your Task
           </h2>
@@ -124,17 +137,21 @@ export default function TaskModal() {
             <label className='label'>
               <span className='label-text font-medium'>When did you perform the task?</span>
             </label>
-            <input
-              type='datetime-local'
-              className={`input input-group-md input-sm sm:w-full resize-none border-none outline-none bg-gray-100 focus:bg-gray-200 ${
-                errorMsg === 'startTime' ? ' input-error' : ''
-              }`}
-              onChange={(e) => setStartTime(e.target.value)}
-            />
-            {errorMsg === 'startTime' && (
+            <div className=' flex gap-4'>
+              <DatePickerModal date={date} setDate={setDate} errorMsg={errorMsg}/>
+              <TimePickerModal time={time} setTime={setTime} errorMsg={errorMsg}/>
+            </div>
+            {errorMsg === 'date' && (
               <label className='label'>
                 <span className='label-text-alt text-error font-semibold'>
-                  Please select the task date and time
+                  Please select the date
+                </span>
+              </label>
+            )}
+            {errorMsg === 'time' && (
+              <label className='label'>
+                <span className='label-text-alt text-error font-semibold'>
+                  Please select the time
                 </span>
               </label>
             )}
@@ -146,7 +163,7 @@ export default function TaskModal() {
             <input
               type='number'
               className={`input input-group-sm input-sm font-semibold border-none outline-none bg-gray-100 focus:bg-gray-200 ${
-                errorMsg === 'timeTaken' ? ' select-error' : ''
+                errorMsg === 'timeTaken' ? ' input-error' : ''
               }`}
               placeholder='Time taken in minutes'
               min={0}

@@ -139,8 +139,8 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.employees = null;
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
+      localStorage.removeItem('worktrackr_user');
+      localStorage.removeItem('worktrackr_token');
     },
   },
   extraReducers: (builder) => {
@@ -201,7 +201,7 @@ const authSlice = createSlice({
       })
       .addCase(updateMe.fulfilled, (state, action) => {
         state.loading = false;
-        state.profile = action.payload;
+        state.profile = action.payload.user;
       })
       .addCase(updateMe.rejected, (state, action) => {
         state.loading = false;

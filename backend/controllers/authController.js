@@ -116,11 +116,23 @@ const getMe = async (req, res) => {
 // @route   PUT /auth/me
 // @access  Private
 
+const comparePasswords = (password, hashedPassword) => {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, hashedPassword, (error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
 const updateMe = async (req, res) => {
   try {
-    const { name, contactNumber, department, password } = req.body;
-    // Update the authenticated user's information
+    const { name, contactNumber, department, password, newPassword } = req.body;
     const user = await User.findById(req.user.userId);
+
     if (name) {
       user.name = name;
     }
@@ -130,14 +142,21 @@ const updateMe = async (req, res) => {
     if (department) {
       user.department = department;
     }
-    if (password) {
-      // Hash the password and create a new user
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-      user.password = hashedPassword;
+    let passwordMsg = null
+    if (password && newPassword) {
+      let passwordMatch = false;
+      passwordMatch = await comparePasswords(password, user.password);
+      if (passwordMatch) {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        user.password = hashedPassword;
+        passwordMsg = 'Password updated succesfully!'
+      } else {
+        return res.status(403).json({ passwordError: 'Current Password does not match!' });
+      }
     }
     await user.save();
-    res.json(user);
+    return res.status(200).json({ user, message: 'Profile updated', passwordMsg });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: err.message });
@@ -164,8 +183,8 @@ const getById = async (req, res) => {
 // @access  Private
 
 const updateById = async (req, res) => {
-  try{
-  const { name, contactNumber, department, status } = req.body;
+  try {
+    const { name, contactNumber, department, status } = req.body;
     // Update the authenticated user's information
     const user = await User.findById(req.params.id);
     if (name) {
@@ -178,7 +197,7 @@ const updateById = async (req, res) => {
       user.department = department;
     }
     // if(status){
-      user.status = status
+    user.status = status;
     // }
     await user.save();
     res.json(user);
