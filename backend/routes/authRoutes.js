@@ -9,6 +9,7 @@ const {
   getById,
   updateById,
   deleteById,
+  uploadProfilePic,
 } = require('../controllers/authController');
 const { auth, isAdmin } = require('../middlewares/authMiddleware');
 
@@ -23,5 +24,6 @@ router
   .get(isAdmin, getById)
   .put(isAdmin, updateById)
   .delete(isAdmin, deleteById);
+router.post('/uploadProfile', auth, uploadProfilePic)
 
 module.exports = router;

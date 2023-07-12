@@ -27,7 +27,7 @@ function App() {
           <Route path='*' element={<NoPageFound />} />
         </Routes>
       </Router>
-      <ToastContainer autoClose={1000} toastContainerStyle={{ width: '320px' }} />
+      <ToastContainer autoClose={2000} toastContainerStyle={{ width: '320px' }} />
     </div>
   );
 }

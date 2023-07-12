@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as authService from './authService';
+import { toast } from 'react-toastify';
 
 // Thunk action to register a new user
 export const registerUser = createAsyncThunk(
@@ -105,6 +106,21 @@ export const deleteUserById = createAsyncThunk(
     try {
       const token = getState().auth.token;
       const response = await authService.deleteUserById(token, userId);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
+// Thunk action to upload profile picture
+export const uploadProfilePic = createAsyncThunk(
+  'auth/uploadProfilePic',
+  async (body, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const token = getState().auth.token;
+      const response = await authService.uploadProfilePic(body, token);
+      // dispatch(getMe())
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -241,7 +257,13 @@ const authSlice = createSlice({
       .addCase(deleteUserById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ? action.payload.message : action.error.message;
-      });
+      })
+      .addCase(uploadProfilePic.fulfilled, (state, action) => {
+        if(action.payload?.user){
+          localStorage.setItem('worktrackr_user', JSON.stringify(action.payload?.user))
+          state.user = action.payload?.user
+        }
+      })
   },
 });
 

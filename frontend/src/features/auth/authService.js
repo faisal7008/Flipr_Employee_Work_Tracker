@@ -124,3 +124,19 @@ export const deleteUserById = async (token, userId) => {
     throw error;
   }
 };
+
+// Upload profile picture
+export const uploadProfilePic = async (body, token) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await axios.post(api_url + `/auth/uploadProfile`, body, config);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

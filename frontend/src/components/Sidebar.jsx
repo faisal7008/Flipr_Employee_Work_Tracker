@@ -221,7 +221,7 @@ export default function Sidebar() {
           >
             <div className='avatar flex flex-col items-center gap-4 '>
               <div className='w-14 rounded-full'>
-                <img src={userimage} />
+                <img src={user?.profilePic || userimage} />
               </div>
               <h2 className=''>{user?.name}</h2>
             </div>

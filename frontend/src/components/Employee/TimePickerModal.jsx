@@ -10,16 +10,13 @@ export default function TimePickerModal({time, setTime}) {
       <MobileTimePicker
         value={time}
         onChange={(val) => setTime(val)}
+        orientation='portrait'
         slotProps={{
           dialog: {
             disablePortal: true,
             hideBackdrop: true,
             sx: { bgcolor: 'rgba(0, 0, 0, 0.1)', boxShadow: 'none', backdropFilter: 'none' },
-          },
-          textField: {
-            className:
-              'input input-group-md input-sm sm:w-full resize-none border-none outline-none bg-gray-100 focus:bg-gray-200 input-error',
-          },
+          }
         }}
         className='w-full outline-none border-none'
       />
