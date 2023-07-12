@@ -16,7 +16,7 @@ export default function EmployeeCard({ employee, tasks }) {
           <div className='flex items-center space-x-3'>
             <div className='avatar'>
               <div className='mask mask-squircle w-9 h-9'>
-                <img src={userimage} alt='user-image' />
+                <img src={employee?.profilePic || userimage} alt='user-image' />
               </div>
             </div>
             <div>
