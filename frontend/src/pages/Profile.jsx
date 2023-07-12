@@ -40,6 +40,10 @@ export default function Profile() {
     dispatch(getMe());
   }, [dispatch]);
 
+  useEffect(() => {
+    resetProfile();
+  }, [loading]);
+
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     setProfilePicData(file);
