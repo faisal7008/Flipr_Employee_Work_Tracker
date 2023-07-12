@@ -4,12 +4,13 @@ import { toast } from 'react-toastify';
 import { createTask, clearError } from '../../features/task/taskSlice';
 import DatePickerModal from './DatePickerModal';
 import TimePickerModal from './TimePickerModal';
+import moment from 'moment';
 
 export default function TaskModal() {
   const [description, setDescription] = useState('');
   const [taskType, setTaskType] = useState('');
-  const [date, setDate] = useState(null);
-  const [time, setTime] = useState(null);
+  const [date, setDate] = useState(moment());
+  const [time, setTime] = useState(moment());
   const [timeTaken, setTimeTaken] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const closeButtonRef = useRef(null);
@@ -18,8 +19,8 @@ export default function TaskModal() {
   const resetState = () => {
     setDescription('');
     setTaskType('');
-    setDate(null);
-    setTime(null);
+    setDate(moment());
+    setTime(moment());
     setTimeTaken('');
   };
 
@@ -80,7 +81,7 @@ export default function TaskModal() {
   return (
     <div>
       <dialog id='task_modal' className='modal overflow-hidden'>
-        <form method='dialog' className='modal-box w-11/12 max-w-xl grid px-7 gap-2 overflow-hidden'>
+        <form method='dialog' className='modal-box w-11/12 max-w-xl grid px-7 gap-4 overflow-hidden'>
           <h2 className=' text-center text-xl font-semibold tracking-wide uppercase text-gray-800'>
             Add Your Task
           </h2>
