@@ -22,6 +22,9 @@ const userSchema = new mongoose.Schema(
         message: 'Contact number must be a 10-digit number',
       },
     },
+    profilePic: {
+      type: String,
+    },
     department: {
       type: String,
       required: true,

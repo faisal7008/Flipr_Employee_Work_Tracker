@@ -1,6 +1,14 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const aws = require('aws-sdk');
+
+// Configure AWS SDK
+aws.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
 
 // @desc    Register new user
 // @route   POST /auth
@@ -142,7 +150,7 @@ const updateMe = async (req, res) => {
     if (department) {
       user.department = department;
     }
-    let passwordMsg = null
+    let passwordMsg = null;
     if (password && newPassword) {
       let passwordMatch = false;
       passwordMatch = await comparePasswords(password, user.password);
@@ -150,7 +158,7 @@ const updateMe = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(newPassword, salt);
         user.password = hashedPassword;
-        passwordMsg = 'Password updated succesfully!'
+        passwordMsg = 'Password updated succesfully!';
       } else {
         return res.status(403).json({ passwordError: 'Current Password does not match!' });
       }
@@ -222,6 +230,58 @@ const deleteById = async (req, res) => {
   }
 };
 
+// Create an instance of the S3 service
+const s3 = new aws.S3();
+
+// Controller to handle profile picture upload
+const uploadProfilePic = async (req, res) => {
+  try {
+    const { deleteProfilePic } = req.body;
+    const { userId } = req.user;
+
+    if (deleteProfilePic === true) {
+      // delete the user's profile picture in the database
+      const updatedUser = await User.findByIdAndUpdate(userId, { profilePic: '' }, { new: true });
+
+      return res
+        .status(200)
+        .json({ message: 'Profile picture deleted successfully', user: updatedUser });
+    }
+
+    const { profilePic } = req.files;
+    // Generate a unique key for the file
+    const fileName = userId;
+
+    // Set the parameters for S3 upload
+    const params = {
+      Bucket: process.env.AWS_S3_BUCKET_NAME + '/profile',
+      Key: fileName,
+      Body: profilePic.data,
+      // ACL: 'public-read', // Set the file's access control to public read
+    };
+
+    // Upload the file to S3
+    const uploadResult = await s3.upload(params).promise();
+
+    // Get the S3 URL of the uploaded file
+    const fileUrl = uploadResult.Location;
+
+    // Update the user's profile picture in the database
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { profilePic: fileUrl },
+      { new: true },
+    );
+
+    return res
+      .status(200)
+      .json({ message: 'Profile picture uploaded successfully', user: updatedUser });
+  } catch (error) {
+    console.error('Error uploading profile picture:', error);
+    return res.status(500).json({ error: 'Error uploading profile picture' });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
@@ -231,4 +291,5 @@ module.exports = {
   getById,
   updateById,
   deleteById,
+  uploadProfilePic,
 };

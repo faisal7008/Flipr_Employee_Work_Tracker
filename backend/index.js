@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv').config();
 const authRouter = require('./routes/authRoutes');
 const taskRouter = require('./routes/taskRoutes');
+const fileUpload = require("express-fileupload");
 
 const app = express();
 
@@ -11,8 +12,11 @@ const app = express();
 app.use(cors({ origin: true, credentials: true }));
 
 // Init Middleware
-app.use(express.json({ extended: false }));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// File Uploading Middleware
+app.use(fileUpload());
 
 // Connect to MongoDB
 const connectDB = async () => {
