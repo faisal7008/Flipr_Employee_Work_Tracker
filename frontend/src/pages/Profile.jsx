@@ -30,6 +30,7 @@ export default function Profile() {
     setName(profile?.name);
     setContactNumber(profile?.contactNumber);
     setDepartment(profile?.department);
+    setProfilePic(profile?.profilePic)
     setPassword('');
     setNewPassword('');
     setErrorMsg('');
@@ -39,6 +40,10 @@ export default function Profile() {
   useEffect(() => {
     dispatch(getMe());
   }, [dispatch]);
+
+  useEffect(() => {
+    resetProfile()
+  }, [profile])
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
