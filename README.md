@@ -26,11 +26,11 @@ Note: A husky is set up for both backend and frontend to run lint and format com
 run - docker-compose up
 
 ### To login as Admin
-Email - admin@flipr.com
-Password - Admin@123
+- Email - admin@flipr.com
+- Password - Admin@123
 
-### Deployed site
-https://worktrackr.duckdns.org
+## Deployment
+The site is hosted on AWS EC2 and can be accessed at https://worktrackr.duckdns.org
 
-## Created By
+## Developed By
 Mohammed Faisal Hussain
