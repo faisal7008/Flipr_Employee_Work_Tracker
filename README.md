@@ -29,5 +29,8 @@ run - docker-compose up
 Email - admin@flipr.com
 Password - Admin@123
 
+### Deployed site
+https://worktrackr.duckdns.org
+
 ## Created By
 Mohammed Faisal Hussain
