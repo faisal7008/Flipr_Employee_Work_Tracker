@@ -131,7 +131,7 @@ export const uploadProfilePic = async (body, token) => {
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
-      },
+      }
     };
 
     const response = await axios.post(api_url + `/auth/uploadProfile`, body, config);

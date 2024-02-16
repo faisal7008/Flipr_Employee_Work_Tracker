@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as authService from './authService';
-import { toast } from 'react-toastify';
+import axios from 'axios';
 
 // Thunk action to register a new user
 export const registerUser = createAsyncThunk(
@@ -119,9 +119,21 @@ export const uploadProfilePic = createAsyncThunk(
   async (body, { rejectWithValue, getState, dispatch }) => {
     try {
       const token = getState().auth.token;
-      const response = await authService.uploadProfilePic(body, token);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        onDownloadProgress: (progressEvent) => {
+          const progress = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          dispatch(setProgress(progress));
+        }
+      };
+  
+      const response = await axios.post(api_url + `/auth/uploadProfile`, body, config);
+      return response.data;
       // dispatch(getMe())
-      return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -139,6 +151,7 @@ const initialState = {
   employees: [],
   isAuthenticated: !!user,
   token: token || null,
+  progress: 0,
   loading: false,
   error: null,
 };
@@ -149,6 +162,9 @@ const authSlice = createSlice({
   reducers: {
     clearError: (state) => {
       state.error = null;
+    },
+    setProgress: (state, action) => {
+      state.progress = action.payload;
     },
     logout: (state) => {
       state.isAuthenticated = false;
@@ -258,6 +274,9 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload ? action.payload.message : action.error.message;
       })
+      .addCase(uploadProfilePic.pending, (state, action) => {
+        state.loading = true
+      })
       .addCase(uploadProfilePic.fulfilled, (state, action) => {
         if(action.payload?.user){
           localStorage.setItem('worktrackr_user', JSON.stringify(action.payload?.user))
@@ -267,6 +286,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { clearError, logout } = authSlice.actions;
+export const { clearError, setProgress, logout } = authSlice.actions;
 
 export default authSlice.reducer;
