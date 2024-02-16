@@ -9,7 +9,7 @@ const userimage =
   'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80';
 
 export default function Profile() {
-  const { profile, loading } = useSelector((state) => state.auth);
+  const { profile, progress, loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   // Initialize the states with initial values
   const [name, setName] = useState(profile?.name);
@@ -30,7 +30,7 @@ export default function Profile() {
     setName(profile?.name);
     setContactNumber(profile?.contactNumber);
     setDepartment(profile?.department);
-    setProfilePic(profile?.profilePic)
+    setProfilePic(profile?.profilePic);
     setPassword('');
     setNewPassword('');
     setErrorMsg('');
@@ -42,10 +42,10 @@ export default function Profile() {
   }, [dispatch]);
 
   useEffect(() => {
-    resetProfile()
-  }, [profile])
+    resetProfile();
+  }, [profile]);
 
-  const handleFileUpload = (event) => {
+  const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     setProfilePicData(file);
 
@@ -55,6 +55,55 @@ export default function Profile() {
       setProfilePic(reader.result);
     };
     reader.readAsDataURL(file);
+
+    if (file) {
+      const formData = new FormData();
+      formData.append('profilePic', file);
+      await dispatch(uploadProfilePic(formData))
+        .then((response) => {
+          const { message, error } = response.payload;
+          console.log('Message:', message);
+          console.log('Error:', error);
+          if (message) {
+            toast.success(message, {
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
+          }
+          if (error) {
+            toast.success(error, {
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
+          }
+        })
+        .catch((error) => {
+          // Handle any errors that occurred during the request
+          console.error(error);
+        });
+      setProfilePicData(null);
+    } else {
+      if (profilePic === '') {
+        await dispatch(uploadProfilePic({ deleteProfilePic: true }))
+          .then((response) => {
+            const { message, error } = response.payload;
+            console.log('Message:', message);
+            console.log('Error:', error);
+            if (message) {
+              toast.success(message, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+              });
+            }
+            if (error) {
+              toast.success(error, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+              });
+            }
+          })
+          .catch((error) => {
+            // Handle any errors that occurred during the request
+            console.error(error);
+          });
+      }
+    }
   };
 
   const validatePassword = () => {
@@ -132,54 +181,7 @@ export default function Profile() {
       newPassword,
     };
 
-    if (profilePicData) {
-      const formData = new FormData();
-      formData.append('profilePic', profilePicData);
-      await dispatch(uploadProfilePic(formData))
-        .then((response) => {
-          const { message, error } = response.payload;
-          console.log('Message:', message);
-          console.log('Error:', error);
-          if (message) {
-            toast.success(message, {
-              position: toast.POSITION.BOTTOM_RIGHT,
-            });
-          }
-          if (error) {
-            toast.success(error, {
-              position: toast.POSITION.BOTTOM_RIGHT,
-            });
-          }
-        })
-        .catch((error) => {
-          // Handle any errors that occurred during the request
-          console.error(error);
-        });
-      setProfilePicData(null);
-    } else {
-      if (profilePic === '') {
-        await dispatch(uploadProfilePic({ deleteProfilePic: true }))
-          .then((response) => {
-            const { message, error } = response.payload;
-            console.log('Message:', message);
-            console.log('Error:', error);
-            if (message) {
-              toast.success(message, {
-                position: toast.POSITION.BOTTOM_RIGHT,
-              });
-            }
-            if (error) {
-              toast.success(error, {
-                position: toast.POSITION.BOTTOM_RIGHT,
-              });
-            }
-          })
-          .catch((error) => {
-            // Handle any errors that occurred during the request
-            console.error(error);
-          });
-      }
-    }
+    
 
     if (
       name !== profile?.name ||
@@ -329,10 +331,17 @@ export default function Profile() {
             </div>
             <div className='py-2 grow flex justify-between items-end sm:items-start max-w-lg px-1'>
               <div className='avatar'>
-                <div className='w-20 rounded-full'>
-                  <img src={profilePic || userimage} />
+                <div className='w-20 rounded-full relative'>
+                  <img className={progress !== 0 && 'opacity-60'} src={profilePic || userimage} alt='Avatar' />
+                  {progress !== 0 && <div
+                    className='radial-progress absolute top-0 left-0 w-full h-full flex items-center justify-center font-bold text-xl'
+                    style={{ '--value': progress }}
+                  >
+                    {progress}%
+                  </div>}
                 </div>
               </div>
+
               <div>
                 <div className='mr-1 grid grid-cols-2 gap-2'>
                   <button

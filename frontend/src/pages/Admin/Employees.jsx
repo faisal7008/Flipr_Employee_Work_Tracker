@@ -64,14 +64,14 @@ export default function Employees() {
   }, [employees, searchQuery]);
 
   return (
-    <div className='p-2 h-full w-full inline-flex flex-col'>
-      <div className='text-sm grow breadcrumbs overflow-hidden'>
+    <div className='p-2 h-full w-full flex flex-col overflow-hidden'>
+      <div className='text-sm breadcrumbs grow overflow-visible'>
         <ul>
           <li>
             <a>Admin</a>
           </li>
           <li>
-            <a>Dashboard</a>
+            <a>Employees</a>
           </li>
         </ul>
       </div>
@@ -170,8 +170,8 @@ export default function Employees() {
           </div>
           <RegisterModal />
         </div>
-        <div className='overflow-auto scroll-smooth scroll-container rounded-xl grow mb-2'>
-          <table className='table relative bg-white rounded-xl shadow-lg'>
+        <div className='overflow-x-auto scroll-smooth bg-white rounded-xl shadow-lg'>
+          <table className='table table-pin-rows table-pin-cols'>
             <thead>
               <tr>
                 <th>
@@ -179,12 +179,12 @@ export default function Employees() {
                     <input type='checkbox' className='checkbox' />
                   </label>
                 </th>
-                <th className=' text-sm'>Name</th>
-                <th>Email</th>
-                <th>Contact</th>
-                <th>Department</th>
-                <th>Joined</th>
-                <th>Status</th>
+                <th className='text-sm'>Name</th>
+                <th className='text-sm'>Email</th>
+                <th className='text-sm'>Contact</th>
+                <th className='text-sm'>Department</th>
+                <th className='text-sm'>Joined</th>
+                <th className='text-sm'>Status</th>
               </tr>
             </thead>
             <tbody>
